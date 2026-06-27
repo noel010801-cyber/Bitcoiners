@@ -1,0 +1,33 @@
+name: Actualizar datos de la pagina
+
+on:
+  schedule:
+    # Corre todos los dias a las 09:00 UTC (~06:00 Argentina, fuera del horario
+    # de mercado de EE.UU. -- asi toma el precio de cierre del dia anterior).
+    # Para cambiar la hora, editar estos dos numeros (formato: minuto hora).
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+    # Esto permite tambien correrlo manualmente con un boton, sin esperar al horario.
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Correr el script que actualiza index.html
+        run: python actualizar_datos.py
+
+      - name: Subir los cambios de vuelta al repositorio
+        run: |
+          git config --global user.name "actualizador-automatico"
+          git config --global user.email "actualizador@automatico.local"
+          git add index.html
+          git diff --staged --quiet || git commit -m "Actualizacion automatica de precios y betas"
+          git push
