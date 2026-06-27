@@ -1,10 +1,10 @@
 name: Actualizar datos de la pagina
 
 on:
-     schedule:
-       - cron: "0 9 * * *"
-     workflow_dispatch:
-     push:
+  schedule:
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+  push:
 
 jobs:
   actualizar:
@@ -16,7 +16,7 @@ jobs:
       - name: Instalar Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.11'
 
       - name: Correr el script que actualiza index.html
         run: python actualizar_datos.py
@@ -26,5 +26,5 @@ jobs:
           git config --global user.name "actualizador-automatico"
           git config --global user.email "actualizador@automatico.local"
           git add index.html
-          git diff --staged --quiet || git commit -m "Actualizacion automatica de precios y betas"
+          git diff --staged --quiet || git commit -m "Actualizacion automatica"
           git push
