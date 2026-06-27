@@ -1,4 +1,4 @@
-name: Actualizar datos de la pagina
+name: .github/workflows/actualizar-diario.yml
 
 on:
   schedule:
