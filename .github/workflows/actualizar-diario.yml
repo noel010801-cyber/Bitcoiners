@@ -1,5 +1,6 @@
 name: Actualizar datos de la pagina
-
+permissions:
+     contents: write
 on:
   schedule:
     - cron: '0 9 * * *'
