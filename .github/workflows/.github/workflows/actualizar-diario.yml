@@ -1,11 +1,9 @@
-name: Actualizar datos de la pagina:
+name: Actualizar datos de la pagina
+
+on:
   schedule:
-    # Corre todos los dias a las 09:00 UTC (~06:00 Argentina, fuera del horario
-    # de mercado de EE.UU. -- asi toma el precio de cierre del dia anterior).
-    # Para cambiar la hora, editar estos dos numeros (formato: minuto hora).
     - cron: "0 9 * * *"
   workflow_dispatch:
-    # Esto permite tambien correrlo manualmente con un boton, sin esperar al horario.
 
 jobs:
   actualizar:
