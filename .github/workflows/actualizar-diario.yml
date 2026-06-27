@@ -1,0 +1,30 @@
+name: Actualizar datos de la pagina
+
+on:
+  schedule:
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+  push:
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Correr el script que actualiza index.html
+        run: python actualizar_datos.py
+
+      - name: Subir los cambios de vuelta al repositorio
+        run: |
+          git config --global user.name "actualizador-automatico"
+          git config --global user.email "actualizador@automatico.local"
+          git add index.html
+          git diff --staged --quiet || git commit -m "Actualizacion automatica"
+          git push
