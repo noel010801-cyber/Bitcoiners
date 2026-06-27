@@ -1,6 +1,4 @@
-name: .github/workflows/actualizar-diario.yml
-
-on:
+name: Actualizar datos de la pagina:
   schedule:
     # Corre todos los dias a las 09:00 UTC (~06:00 Argentina, fuera del horario
     # de mercado de EE.UU. -- asi toma el precio de cierre del dia anterior).
