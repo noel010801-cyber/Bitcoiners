@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitcoiners</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%230A0A0C'/%3E%3Ctext x='32' y='46' font-family='Arial, sans-serif' font-size='40' font-weight='900' fill='%23F7931A' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+<meta name="description" content="24 instrumentos de deuda y acciones preferidas respaldados en Bitcoin, desagregados término por término. Cupón, garantía, vencimiento y cobertura de caja real de cada emisor.">
+<meta property="og:title" content="Bitcoiners — la letra chica de cómo Bitcoin se financia">
+<meta property="og:description" content="24 instrumentos de capital — convertibles, preferidas, notas garantizadas — desagregados término por término. Con los números reales de cobertura de caja de cada emisor.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bitcoiners — la letra chica de cómo Bitcoin se financia">
+<meta name="twitter:description" content="24 instrumentos de capital respaldados en Bitcoin, desagregados término por término. Sacá tus propias conclusiones.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================= TOKENS ============================= */
+:root{
+  --ink:#0A0A0C;
+  --ink-2:#18181C;
+  --paper:#0E0E11;
+  --paper-2:#1C1C21;
+  --card:#16161A;
+  --line:#26262C;
+  --line-soft:#26262C;
+  --text:#F2F2F4;
+  --text-soft:#8C8C96;
+  --text-onink:#F2F2F4;
+  --text-onink-soft:#8C8C96;
+  --gold:#F7931A;
+  --gold-soft:rgba(247,147,26,0.16);
+  --alarm:#F0464B;
+  --alarm-soft:rgba(240,70,75,0.16);
+  --safe:#2ECC71;
+  --aqua:#2DD4BF;
+  --aqua-soft:rgba(45,212,191,0.16);
+  --safe-soft:rgba(46,204,113,0.16);
+  --warn:#F2A93B;
+  --warn-soft:rgba(242,169,59,0.16);
+  --radius:4px;
+  --serif:'Manrope',sans-serif;
+  --sans:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--text);
+  line-height:1.5;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+.eyebrow{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--gold);
+  font-weight:600;
+}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;margin:0;color:var(--text);letter-spacing:-.01em;}
+.onink h1,.onink h2,.onink h3,.onink p,.onink span,.onink div{color:var(--text-onink);}
+a{color:inherit;}
+.mono{font-family:var(--mono);}
+.num{font-family:var(--mono);font-weight:600;}
+
+/* ============================= NAV ============================= */
+nav.topnav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(10,10,12,0.92);
+  border-bottom:1px solid var(--line-soft);
+  backdrop-filter:blur(6px);
+}
+nav.topnav .wrap{
+  display:flex;align-items:center;justify-content:space-between;
+  height:64px;
+}
+.brand{
+  font-family:var(--serif);font-weight:800;font-size:23px;color:#F2F2F4;
+  display:flex;align-items:center;gap:10px;letter-spacing:0;
+}
+.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);display:inline-block;}
+.navlinks{display:flex;gap:22px;flex-wrap:wrap;}
+.navlinks a{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--text-onink-soft);text-decoration:none;border-bottom:1px solid transparent;
+  padding:4px 0;transition:color .15s, border-color .15s;
+}
+.navlinks a:hover{color:var(--gold);border-color:var(--gold);}
+.navlinks a.active{color:var(--gold);border-color:var(--gold);}
+
+/* ============================= SISTEMA DE VISTAS (SPA, sin recarga) ============================= */
+.view{display:none;}
+.view.active{display:block;animation:viewIn .25s ease;}
+@keyframes viewIn{from{opacity:0;} to{opacity:1;}}
+@media (prefers-reduced-motion: reduce){.view.active{animation:none;}}
+@media (max-width:880px){.navlinks{display:none;}}
+.nav-hamburger{display:none;background:none;border:1px solid var(--line-soft);border-radius:6px;color:var(--text);font-size:18px;padding:4px 10px;cursor:pointer;}
+@media (max-width:880px){.nav-hamburger{display:block;}}
+.nav-mobile-menu{display:none;flex-direction:column;border-top:1px solid var(--line-soft);background:var(--ink);}
+.nav-mobile-menu.open{display:flex;}
+.nav-mobile-menu a{padding:14px 20px;color:var(--text-soft);text-decoration:none;border-bottom:1px solid var(--line-soft);font-size:14px;}
+.nav-mobile-menu a.active{color:var(--gold);}
+.data-asof{font-family:var(--mono);font-size:10px;color:var(--text-onink-soft);white-space:nowrap;}
+@media (max-width:1080px){.data-asof{display:none;}}
+.data-asof-mobile{font-family:var(--mono);font-size:10px;color:var(--text-onink-soft);margin-top:8px;}
+
+/* ============================= HERO ============================= */
+.hero{
+  background:radial-gradient(ellipse 1100px 600px at 20% -10%, #2A1608 0%, var(--ink) 55%);
+  color:var(--text-onink);
+  padding:72px 0 56px;
+  border-bottom:1px solid var(--line-soft);
+}
+.hero-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:56px;align-items:start;}
+@media (max-width:920px){.hero-grid{grid-template-columns:1fr;}}
+.hero{position:relative;overflow:hidden;}
+.hero h1{font-size:42px;line-height:1.08;color:#F2F2F4;max-width:680px;margin-left:auto;margin-right:auto;}
+.hero h1 em{font-style:normal;color:var(--gold);}
+.hero p.lede{font-size:16.5px;color:var(--text-onink-soft);max-width:560px;line-height:1.6;}
+.price-stage{display:flex;justify-content:center;margin:26px 0 34px;}
+.price-card{background:var(--ink-2);border:1px solid var(--line-soft);border-radius:14px;padding:26px 44px;display:inline-block;}
+.price-big{font-family:var(--mono);font-size:52px;font-weight:700;color:#F2F2F4;margin:8px 0 12px;}
+.capability-row{display:flex;justify-content:center;gap:14px;margin-top:38px;flex-wrap:wrap;}
+.cap-item{
+  text-decoration:none;background:var(--ink-2);border:1px solid var(--line-soft);border-radius:10px;
+  padding:16px 18px;min-width:150px;max-width:190px;text-align:center;
+  transition:border-color .15s, transform .15s;
+}
+.cap-item:hover{border-color:var(--gold);transform:translateY(-2px);}
+.cap-num{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--gold);}
+.cap-label{font-size:11.5px;color:var(--text-onink-soft);margin-top:5px;line-height:1.4;}
+
+/* Live stress teaser card */
+.teaser-card{
+  background:var(--ink-2);border:1px solid var(--line-soft);border-radius:var(--radius);
+  padding:24px 26px;position:relative;overflow:hidden;
+}
+.teaser-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+}
+.teaser-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-onink-soft);}
+.teaser-price-row{display:flex;align-items:baseline;gap:10px;margin-top:6px;}
+#btc-live-price{font-family:var(--mono);font-size:30px;font-weight:600;color:#F2F2F4;}
+.live-pill{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 7px 3px 18px;border-radius:20px;border:1px solid var(--safe);color:var(--safe);
+  background:rgba(63,122,99,0.12);position:relative;
+}
+.live-pill::before{
+  content:"";position:absolute;left:7px;top:50%;transform:translateY(-50%);
+  width:6px;height:6px;border-radius:50%;background:var(--safe);
+  animation:livePulse 1.6s ease-in-out infinite;
+}
+.live-pill.off{border-color:var(--text-onink-soft);color:var(--text-onink-soft);background:transparent;padding-left:7px;}
+.live-pill.off::before{display:none;}
+@keyframes livePulse{
+  0%{box-shadow:0 0 0 0 rgba(46,204,113,0.6);}
+  70%{box-shadow:0 0 0 5px rgba(46,204,113,0);}
+  100%{box-shadow:0 0 0 0 rgba(46,204,113,0);}
+}
+@media (prefers-reduced-motion: reduce){.live-pill::before{animation:none;}}
+.teaser-slider-block{margin-top:18px;}
+input[type=range]{
+  width:100%;-webkit-appearance:none;height:4px;border-radius:2px;
+  background:linear-gradient(90deg,var(--alarm),var(--warn),var(--safe));outline:none;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:#F2F2F4;border:3px solid var(--gold);cursor:pointer;margin-top:-1px;
+}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#F2F2F4;border:3px solid var(--gold);cursor:pointer;}
+.slider-readout{display:flex;justify-content:space-between;margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--text-onink-soft);}
+.teaser-result{
+  margin-top:16px;padding:14px 16px;border-radius:var(--radius);
+  background:rgba(0,0,0,0.25);border:1px solid var(--line-soft);
+}
+.teaser-result .label{font-size:12px;color:var(--text-onink-soft);}
+.teaser-result .value{font-family:var(--mono);font-size:22px;font-weight:700;margin-top:4px;}
+.teaser-result .value.ok{color:#2ECC71;}
+.teaser-result .value.bad{color:#F0464B;}
+
+/* ============================= SECTIONS ============================= */
+section{padding:64px 0;border-bottom:1px solid var(--line);}
+section.dark{background:var(--ink);border-color:var(--line-soft);}
+.section-head{margin-bottom:36px;max-width:680px;}
+.section-head h2{font-size:28px;margin-top:8px;}
+.section-head p{color:var(--text-soft);font-size:15px;margin-top:10px;line-height:1.6;}
+.dark .section-head p{color:var(--text-onink-soft);}
+
+/* ============================= CARDS / GRID ============================= */
+.filterbar{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+.inst-search{
+  width:100%;background:var(--card);border:1px solid var(--line);border-radius:6px;
+  color:var(--text);font-family:var(--sans);font-size:14px;padding:11px 14px;margin-bottom:14px;
+}
+.inst-search:focus{outline:none;border-color:var(--gold);}
+.no-results{grid-column:1 / -1;padding:30px 20px;text-align:center;color:var(--text-soft);font-size:13.5px;background:var(--card);border:1px dashed var(--line);border-radius:var(--radius);}
+.estado-actual-banner{margin-bottom:18px;}
+.estado-actual{padding:14px 18px;border-radius:var(--radius);border:1px solid;}
+.estado-actual.ok{background:var(--aqua-soft);border-color:var(--aqua);}
+.estado-actual.warn{background:var(--alarm-soft);border-color:var(--alarm);}
+.estado-actual b{display:block;font-family:var(--serif);font-size:14.5px;}
+.estado-actual span{display:block;font-size:12px;color:var(--text-soft);margin-top:4px;}
+.estado-actual-link{display:block;padding:14px 18px;border-radius:var(--radius);border:1px solid;text-decoration:none;cursor:pointer;transition:transform .15s;}
+.estado-actual-link:hover{transform:translateY(-2px);}
+.estado-actual-link.ok{background:var(--aqua-soft);border-color:var(--aqua);}
+.estado-actual-link.warn{background:var(--alarm-soft);border-color:var(--alarm);}
+.estado-actual-link b{display:block;font-family:var(--serif);font-size:15px;color:var(--text-onink);}
+.estado-actual-link span{display:block;font-size:11.5px;color:var(--gold);margin-top:5px;}
+.filterbtn{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;
+  padding:7px 14px;border:1px solid var(--line);border-radius:20px;background:var(--card);
+  cursor:pointer;color:var(--text-soft);transition:all .15s;
+}
+.filterbtn.active{background:var(--ink);color:#F2F2F4;border-color:var(--ink);}
+.filterbtn:hover{border-color:var(--gold);}
+
+.cardgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+@media (max-width:960px){.cardgrid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:640px){.cardgrid{grid-template-columns:1fr;}}
+
+.entcard{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;transition:border-color .3s, box-shadow .3s;
+}
+.entcard.expanded{border-color:var(--gold);box-shadow:0 0 0 1px rgba(247,147,26,0.15);}
+.entcard .inst-toggle{padding:16px 18px;}
+.entcard .top-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.entcard h4{font-size:16px;line-height:1.25;}
+.ticker-tag{font-family:var(--mono);font-size:10.5px;color:var(--text-soft);border:1px solid var(--line);padding:2px 6px;border-radius:3px;white-space:nowrap;}
+.entcard .sub{font-family:var(--mono);font-size:11px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.04em;}
+.entcard .stats{display:flex;gap:18px;margin-top:10px;}
+.entcard .stat{font-family:var(--mono);}
+.entcard .stat .v{font-size:15px;font-weight:600;}
+.entcard .stat .l{font-size:10px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.03em;}
+.entcard .note{font-size:12.5px;color:var(--text-soft);line-height:1.45;border-top:1px solid var(--line);padding-top:10px;margin-top:10px;}
+
+.badge{
+  font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  padding:3px 8px;border-radius:20px;white-space:nowrap;
+}
+.badge.bajo{background:var(--safe-soft);color:var(--safe);}
+.badge.medio{background:var(--warn-soft);color:var(--warn);}
+.badge.alto{background:var(--alarm-soft);color:var(--alarm);}
+.badge.na{background:var(--paper-2);color:var(--text-soft);}
+
+/* ============================= INSTRUMENT TABLE/CARDS ============================= */
+.instgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+@media (max-width:760px){.instgrid{grid-template-columns:1fr;}}
+.instcard{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;
+}
+.inst-toggle{
+  width:100%;background:none;border:none;padding:16px 18px;text-align:left;cursor:pointer;
+  font-family:inherit;color:inherit;
+}
+.instcard .head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.instcard .head h4{font-size:15px;}
+.instcard .entity-of{font-family:var(--mono);font-size:10.5px;color:var(--gold);text-transform:uppercase;letter-spacing:.04em;}
+.chevron{color:var(--text-soft);font-size:13px;transition:transform .3s cubic-bezier(.4,0,.2,1);display:inline-block;}
+.instcard.expanded .chevron, .entcard.expanded .chevron{transform:rotate(180deg);color:var(--gold);}
+.instcard{transition:border-color .3s, box-shadow .3s;}
+.instcard.expanded{border-color:var(--gold);box-shadow:0 0 0 1px rgba(247,147,26,0.15), 0 8px 24px rgba(0,0,0,0.3);}
+.instcard.flash{animation:flashHighlight 1.4s ease;}
+@keyframes flashHighlight{0%{box-shadow:0 0 0 3px rgba(247,147,26,0.5);} 100%{box-shadow:0 0 0 1px rgba(247,147,26,0.15);}}
+.inst-details{max-height:0;opacity:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1), opacity .25s ease, padding .35s cubic-bezier(.4,0,.2,1);padding:0 18px;}
+.instcard.expanded .inst-details, .entcard.expanded .inst-details{max-height:600px;opacity:1;padding:0 18px 16px;transition:max-height .4s cubic-bezier(.4,0,.2,1), opacity .4s ease .1s, padding .4s cubic-bezier(.4,0,.2,1);}
+.ticker-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.ticker-row .ticker-tag{font-family:var(--mono);font-size:11px;font-weight:700;background:var(--gold-soft);color:var(--gold);padding:2px 7px;border-radius:3px;border:none;}
+.ticker-row .cotiza-tag{font-size:11px;color:var(--text-soft);font-style:italic;}
+.breakeven-line{font-size:11.5px;margin-top:8px;padding-top:8px;border-top:1px solid var(--line);}
+.breakeven-line.ok{color:var(--aqua);}
+.breakeven-line.warn{color:var(--alarm);}
+.instcard .terms{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin:10px 0;}
+.term{font-size:12px;}
+.term .l{color:var(--text-soft);display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.03em;}
+.term .v{font-family:var(--mono);font-weight:600;}
+.flags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.flag{
+  font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:3px;border:1px solid var(--line);color:var(--text-soft);
+}
+.flag.warnflag{border-color:var(--alarm);color:var(--alarm);}
+.flag.okflag{border-color:var(--aqua);color:var(--aqua);}
+
+/* ============================= GLOSARIO / TOOLTIPS ============================= */
+.gloss{
+  border-bottom:1px dotted var(--gold);cursor:help;
+  -webkit-tap-highlight-color:transparent;
+}
+#global-tooltip{
+  display:none;position:fixed;z-index:500;width:240px;
+  background:var(--ink-2);border:1px solid var(--gold);border-radius:var(--radius);
+  padding:10px 12px;font-family:var(--sans);font-size:12px;font-weight:400;line-height:1.5;
+  color:var(--text-onink-soft);box-shadow:0 8px 24px rgba(0,0,0,0.5);
+}
+@media (max-width:640px){#global-tooltip{width:min(240px, calc(100vw - 32px));}}
+.inst-link{color:var(--gold);text-decoration:underline;text-decoration-style:dotted;cursor:pointer;}
+.inst-link:hover{color:#FFAB4D;}
+.flag.okflag{border-color:var(--aqua);color:var(--aqua);}
+.filter-fade{opacity:0.15 !important;transform:scale(0.985);transition:opacity .16s ease, transform .16s ease;}
+.card-stagger{opacity:0;transform:translateY(14px);animation:cardStaggerIn .45s cubic-bezier(.2,.7,.2,1) forwards;}
+@keyframes cardStaggerIn{to{opacity:1;transform:translateY(0);}}
+.filterbtn.active{animation:filterFlash .35s ease;}
+@keyframes filterFlash{0%{box-shadow:0 0 0 0 rgba(247,147,26,0.5);} 100%{box-shadow:0 0 0 6px rgba(247,147,26,0);}}
+@media (prefers-reduced-motion: reduce){.card-stagger{animation:none;opacity:1;transform:none;}.filterbtn.active{animation:none;}}
+.cardgrid,.instgrid{transition:opacity .2s ease, transform .2s ease;}
+
+/* ============================= BARRA FIJA INFERIOR ============================= */
+body{padding-bottom:42px;}
+#bottom-bar{
+  position:fixed;left:0;right:0;bottom:0;height:42px;z-index:300;
+  background:#080809;border-top:1px solid var(--line-soft);
+  display:flex;align-items:stretch;
+}
+.ticker-fixed{
+  display:flex;align-items:center;gap:8px;padding:0 16px;
+  background:var(--ink-2);border-right:1px solid var(--line-soft);flex-shrink:0;
+}
+.tf-label{font-family:var(--mono);font-size:10px;color:var(--gold);font-weight:700;letter-spacing:.05em;}
+.tf-price{font-family:var(--mono);font-size:14px;font-weight:700;color:#F2F2F4;}
+.ticker-scroll{flex:1;overflow:hidden;position:relative;}
+.ticker-track{
+  display:flex;align-items:center;height:100%;white-space:nowrap;
+  width:max-content;
+  animation:tickerScroll 60s linear infinite;
+}
+.ticker-scroll:hover .ticker-track{animation-play-state:paused;}
+@keyframes tickerScroll{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+.tick-item{display:inline-flex;align-items:center;gap:7px;padding:0 18px;font-family:var(--mono);font-size:12px;flex-shrink:0;width:220px;box-sizing:content-box;overflow:hidden;}
+.tick-ticker{color:var(--text-onink-soft);flex-shrink:0;}
+.tick-price{color:#F2F2F4;font-weight:600;flex-shrink:0;text-align:right;overflow:hidden;white-space:nowrap;margin-left:auto;}
+.tick-pct{flex-shrink:0;text-align:right;overflow:hidden;white-space:nowrap;min-width:55px;}
+.tick-pct.pos{color:var(--safe);}
+.tick-pct.neg{color:var(--alarm);}
+.tick-pct.flat{color:var(--text-soft);}
+@media (prefers-reduced-motion: reduce){.ticker-track{animation:none;}}
+@media (max-width:640px){.ticker-fixed{padding:0 10px;}.tf-price{font-size:12px;}}
+
+/* ============================= SIMULATOR ============================= */
+.simlayout{display:grid;grid-template-columns:380px 1fr;gap:32px;align-items:start;}
+@media (max-width:920px){.simlayout{grid-template-columns:1fr;}}
+.simpanel{
+  background:var(--ink);color:var(--text-onink);border-radius:var(--radius);padding:26px 24px;
+  position:sticky;top:72px;
+}
+.simpanel .bignum{font-family:var(--mono);font-size:38px;font-weight:700;color:#F2F2F4;margin:10px 0 4px;}
+.simgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px;}
+.simmetric{background:rgba(255,255,255,0.04);border:1px solid var(--line-soft);border-radius:var(--radius);padding:12px 14px;}
+.simmetric .l{font-family:var(--mono);font-size:10px;color:var(--text-onink-soft);text-transform:uppercase;letter-spacing:.03em;}
+.simmetric .v{font-family:var(--mono);font-size:18px;font-weight:700;margin-top:5px;}
+.simmetric .v.ok{color:var(--aqua);}
+.simmetric .v.bad{color:#F0464B;}
+.simmetric .v.mid{color:#F2A93B;}
+
+.input-toggle{display:flex;gap:6px;margin:14px 0 12px;}
+.reset-price-btn{
+  display:block;width:100%;margin-top:4px;font-family:var(--mono);font-size:11.5px;
+  background:transparent;border:1px dashed var(--line-soft);color:var(--text-onink-soft);
+  border-radius:6px;padding:7px 10px;cursor:pointer;transition:all .15s;
+}
+.reset-price-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+.cobertura-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:10px;}
+@media (max-width:900px){.cobertura-grid{grid-template-columns:repeat(2,1fr);}}
+.cobertura-item{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 14px;text-align:center;}
+.cobertura-item.alarm{border-color:var(--alarm);}
+.cobertura-item.aqua{border-color:var(--aqua);}
+.cobertura-num{font-family:var(--mono);font-size:24px;font-weight:700;}
+.etf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:10px;}
+@media (max-width:900px){.etf-grid{grid-template-columns:repeat(2,1fr);}}
+.etf-item{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 14px;}
+.etf-item.alarm{border-color:var(--alarm);}
+.etf-item.aqua{border-color:var(--aqua);}
+.etf-ticker{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--gold);}
+.etf-fee{font-family:var(--mono);font-size:26px;font-weight:700;margin-top:4px;}
+.etf-item.alarm .etf-fee{color:var(--alarm);}
+.etf-item.aqua .etf-fee{color:var(--aqua);}
+.etf-detalle{font-size:10.5px;color:var(--text-soft);margin-top:8px;line-height:1.45;}
+@media (max-width:760px){.cita-doble{grid-template-columns:1fr !important;}}
+.cobertura-item.alarm .cobertura-num{color:var(--alarm);}
+.cobertura-item.aqua .cobertura-num{color:var(--aqua);}
+.cobertura-nombre{font-family:var(--serif);font-size:13px;font-weight:600;margin-top:6px;}
+.cobertura-detalle{font-size:10.5px;color:var(--text-soft);margin-top:6px;line-height:1.4;}
+.howitworks{background:var(--ink-2);border:1px solid var(--line-soft);border-radius:var(--radius);padding:22px 24px;margin-bottom:28px;}
+.howitworks p{color:var(--text-onink-soft);font-size:14px;line-height:1.7;margin-top:8px;}
+.howitworks em{color:var(--gold);font-style:normal;}
+.inst-select{
+  width:100%;background:var(--card);border:1px solid var(--line);border-radius:6px;
+  color:var(--text);font-family:var(--sans);font-size:13.5px;padding:10px 12px;cursor:pointer;
+}
+.select-detail-card{background:var(--card);border:1px solid var(--gold);border-radius:var(--radius);padding:16px 18px;}
+.toggle-btn{
+  flex:1;font-family:var(--mono);font-size:11px;letter-spacing:.03em;text-transform:uppercase;
+  padding:7px 10px;border:1px solid var(--line-soft);border-radius:6px;background:transparent;
+  color:var(--text-onink-soft);cursor:pointer;transition:all .15s;
+}
+.toggle-btn.active{background:var(--gold);color:var(--ink);border-color:var(--gold);font-weight:700;}
+#sim-input{
+  width:100%;background:rgba(255,255,255,0.06);border:1px solid var(--line-soft);border-radius:6px;
+  color:#F2F2F4;font-family:var(--mono);font-size:18px;padding:10px 12px;
+}
+
+table.walltable{width:100%;border-collapse:collapse;font-size:13px;}
+table.walltable th{
+  font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.03em;
+  text-align:left;color:var(--text-soft);border-bottom:1px solid var(--line);padding:8px 10px;
+}
+table.walltable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+table.walltable tr.put td{background:var(--alarm-soft);}
+table.walltable .num{font-family:var(--mono);}
+
+/* ============================= TIMELINE (MURO) ============================= */
+.timeline{position:relative;padding-left:24px;border-left:2px solid var(--line);margin-top:8px;}
+.tlitem{position:relative;padding:0 0 22px 22px;}
+.tlitem::before{
+  content:"";position:absolute;left:-31px;top:3px;width:11px;height:11px;border-radius:50%;
+  background:var(--card);border:2px solid var(--line);
+}
+.tlitem.ent-mstr::before{background:#4F8EF7;border-color:#4F8EF7;}
+.tlitem.ent-mara::before{background:#6FCF97;border-color:#6FCF97;}
+.tlitem.ent-xxi::before{background:#BB86FC;border-color:#BB86FC;}
+.tlitem.ent-djt::before{background:#FF6B6B;border-color:#FF6B6B;}
+.tlitem.put::before{border-color:var(--alarm);box-shadow:0 0 0 2px var(--alarm);}
+.tldate{font-family:var(--mono);font-size:11.5px;color:var(--gold);font-weight:600;}
+.tlbody{font-size:13.5px;margin-top:3px;}
+.tlbody b{font-weight:600;}
+.tldays{font-family:var(--mono);font-size:11px;color:var(--text-soft);margin-top:2px;}
+.tlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px;font-size:11px;color:var(--text-soft);}
+.tlegend span{display:inline-flex;align-items:center;gap:5px;}
+.tlegend i{width:9px;height:9px;border-radius:50%;display:inline-block;}
+
+/* ============================= TABLAS TIPO FILA (beta en vivo) ============================= */
+.beta-row{display:grid;grid-template-columns:1.2fr 0.6fr 0.6fr 0.7fr 0.7fr 0.9fr;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);}
+.beta-row.headrow{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--text-soft);letter-spacing:.03em;text-align:right;}
+.beta-row.headrow div:first-child{text-align:left;}
+@media (max-width:640px){.beta-row{grid-template-columns:1fr 1fr;gap:6px 12px;}.beta-row.headrow{display:none;}.beta-row .bt-ticker{grid-column:1 / -1;font-weight:700;margin-top:8px;}}
+.bt-ticker{font-family:var(--mono);font-weight:700;}
+.bt-num{font-family:var(--mono);font-size:13px;text-align:right;}
+
+/* ============================= ACCESIBILIDAD TABLE ============================= */
+table.acctable{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;}
+table.acctable th{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--text-soft);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);}
+table.acctable td{padding:9px 10px;border-bottom:1px solid var(--line);}
+.yn{font-family:var(--mono);font-weight:700;font-size:11px;padding:2px 8px;border-radius:3px;}
+.yn.si{background:var(--safe-soft);color:var(--safe);}
+.yn.no{background:var(--alarm-soft);color:var(--alarm);}
+
+/* ============================= FOOTER ============================= */
+footer{background:var(--ink);color:var(--text-onink-soft);padding:40px 0;font-size:12.5px;}
+footer a{color:var(--gold);text-decoration:none;}
+.foot-grid{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+
+.lastrow{display:flex;justify-content:space-between;margin-top:6px;}
+::selection{background:var(--gold-soft);}
+
+/* ============================= APARICION AL SCROLLEAR ============================= */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-stagger.visible{transition-delay:var(--stagger,0ms);}
+@media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none;}}
+
+/* ============================= FLUJOS ============================= */
+.flowgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+@media (max-width:760px){.flowgrid{grid-template-columns:repeat(2,1fr);}}
+.flowcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;text-align:center;}
+.flowcard .ticker{font-family:var(--mono);font-size:12px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.04em;}
+.flowcard .flowval{font-family:var(--mono);font-size:20px;font-weight:700;margin-top:6px;}
+.flowcard .flowval.pos{color:var(--safe);}
+.flowcard .flowval.neg{color:var(--alarm);}
+.flowcard .flowval.flat{color:var(--text-soft);}
+.flow-error{font-size:13px;color:var(--text-soft);background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;}
+</style>
+</head>
+<body>
+
+<!-- ============================= NAV ============================= -->
+<nav class="topnav">
+  <div class="wrap">
+    <a href="#inicio" class="brand nav-target" data-view="inicio" style="text-decoration:none;cursor:pointer;"><span class="dot"></span><span><span style="color:var(--gold);">B</span>itcoiner<span style="font-size:0.7em;color:var(--gold);">s</span></span></a>
+    <div class="navlinks">
+      <a href="#inicio" class="nav-target" data-view="inicio">Inicio</a>
+      <a href="#ecosistema" class="nav-target" data-view="ecosistema">Ecosistema</a>
+      <a href="#instrumentos" class="nav-target" data-view="instrumentos">Instrumentos</a>
+      <a href="#simulador" class="nav-target" data-view="simulador">Simulador</a>
+      <a href="#beta" class="nav-target" data-view="beta">Beta</a>
+      <a href="#muro" class="nav-target" data-view="muro">Vencimientos</a>
+      <a href="#flujos" class="nav-target" data-view="flujos">Flujos</a>
+      <a href="#argentina" class="nav-target" data-view="argentina">Argentina</a>
+    </div>
+    <button id="nav-hamburger" class="nav-hamburger" type="button" aria-label="Abrir menú">☰</button>
+    <div class="data-asof" id="data-asof-nav" title="Hoy, cuando se cargó la página. Cada precio individual tiene su propia fecha si no está en vivo.">Cargando fecha…</div>
+  </div>
+  <div id="nav-mobile-menu" class="nav-mobile-menu">
+    <a href="#inicio" class="nav-target" data-view="inicio">Inicio</a>
+    <a href="#ecosistema" class="nav-target" data-view="ecosistema">Ecosistema</a>
+    <a href="#instrumentos" class="nav-target" data-view="instrumentos">Instrumentos</a>
+      <a href="#simulador" class="nav-target" data-view="simulador">Simulador</a>
+      <a href="#beta" class="nav-target" data-view="beta">Beta</a>
+    <a href="#muro" class="nav-target" data-view="muro">Vencimientos</a>
+    <a href="#flujos" class="nav-target" data-view="flujos">Flujos</a>
+    <a href="#argentina" class="nav-target" data-view="argentina">Argentina</a>
+  </div>
+</nav>
+
+<!-- ============================= HERO ============================= -->
+<div class="view active" id="view-inicio">
+<header class="hero">
+  <div class="wrap" style="position:relative;z-index:2;text-align:center;">
+    <div class="eyebrow"><span class="gloss" data-term="due_diligence" style="border-bottom-color:currentColor;">Due diligence</span> cuantitativa · no es asesoramiento financiero</div>
+
+    <div class="price-stage">
+      <div class="price-card">
+        <div class="teaser-label">Precio de Bitcoin ahora</div>
+        <div class="price-big" id="btc-live-price">$ —</div>
+        <span class="live-pill" id="live-pill">conectando…</span>
+        <div class="data-asof-mobile" id="data-asof-mobile">Cargando fecha…</div>
+      </div>
+    </div>
+
+    <h1 style="margin:0 auto;">Bitcoin ya se financia con deuda<br>y acciones preferidas reales.<br><em>Esta es la letra chica de cada una.</em></h1>
+    <p class="lede" style="margin:18px auto 0;">24 instrumentos de capital — convertibles, preferidas, notas garantizadas — desagregados término por término. Con los números reales de cobertura de caja de cada emisor. Sacá tus propias conclusiones.</p>
+  </div>
+</header>
+
+<section id="tesis">
+  <div class="wrap" style="max-width:760px;">
+    <div class="eyebrow">Qué es esto</div>
+    <p style="color:var(--text-soft);font-size:15px;line-height:1.7;margin-top:10px;">
+      Un proyecto de un economista, no de un developer ni de un promotor de un instrumento. Mide el riesgo real de cada forma de exponerse a Bitcoin a través del mercado de capitales —
+      comprarlo directo, vía un ETF, en la acción de una empresa que lo tiene en tesorería, o en una preferida apalancada — incluso cuando la conclusión sea incómoda para quien vende el
+      producto. Cada cifra tiene fecha y fuente primaria (SEC EDGAR, EDINET, comunicados oficiales); donde no se pudo verificar algo, se lo marca, no se lo inventa.
+    </p>
+
+    <div class="eyebrow" style="margin-top:30px;">Cómo se usa</div>
+    <p style="color:var(--text-soft);font-size:15px;line-height:1.7;margin-top:10px;">
+      Elegí abajo a dónde querés ir — cada sección es independiente, no hace falta leer las demás para entenderla. Si ya sabés qué instrumento te interesa, vas directo a "Instrumentos" y
+      usás el buscador/desplegable de ahí. Si querés el panorama completo de quién tiene Bitcoin, arrancá por "Ecosistema".
+    </p>
+
+    <div class="eyebrow" style="margin-top:30px;">Cómo se construyó</div>
+    <p style="color:var(--text-soft);font-size:15px;line-height:1.7;margin-top:10px;">
+      Investigación manual sobre fuente primaria, instrumento por instrumento. Los precios, los betas y la variación diaria se recalculan todos los días de forma automática con un script en
+      Python (yfinance), sin intervención manual. Cuando la fuente externa no responde para algún dato puntual, se muestra la fecha del último valor confirmado — nunca un número inventado.
+    </p>
+
+    <div id="estado-actual-inicio" class="estado-actual-banner" style="max-width:640px;margin:30px auto 0;"></div>
+
+    <div class="capability-row" style="margin-top:30px;">
+      <a href="#ecosistema" class="cap-item nav-target" data-view="ecosistema">
+        <div class="cap-num" id="stat-entities">—</div>
+        <div class="cap-label">Ecosistema — empresas, gobiernos y fondos</div>
+      </a>
+      <a href="#instrumentos" class="cap-item nav-target" data-view="instrumentos">
+        <div class="cap-num" id="stat-instruments">—</div>
+        <div class="cap-label">Instrumentos — desagregados término por término</div>
+      </a>
+      <a href="#simulador" class="cap-item nav-target" data-view="simulador">
+        <div class="cap-num">$</div>
+        <div class="cap-label">Simulador — probá cualquier precio de BTC</div>
+      </a>
+      <a href="#beta" class="cap-item nav-target" data-view="beta">
+        <div class="cap-num">β</div>
+        <div class="cap-label">Beta en vivo — esperado vs. real, hoy</div>
+      </a>
+      <a href="#muro" class="cap-item nav-target" data-view="muro">
+        <div class="cap-num" id="stat-events">—</div>
+        <div class="cap-label">Vencimientos — el calendario completo</div>
+      </a>
+      <a href="#flujos" class="cap-item nav-target" data-view="flujos">
+        <div class="cap-num">$</div>
+        <div class="cap-label">Flujos diarios de los fondos</div>
+      </a>
+      <a href="#argentina" class="cap-item nav-target" data-view="argentina">
+        <div class="cap-num">AR</div>
+        <div class="cap-label">Accesibilidad desde Argentina</div>
+      </a>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============================= ECOSISTEMA ============================= -->
+<div class="view" id="view-ecosistema">
+<section id="ecosistema">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Mapa del ecosistema</div>
+      <h2>19 entidades que tienen Bitcoin en su balance, de tres tipos muy distintos.</h2>
+      <p>Empresas que armaron su identidad corporativa alrededor de Bitcoin, gobiernos que lo decomisaron o lo compraron, y fondos cotizados que lo custodian por terceros. En empresas y fondos, el badge mide <b>riesgo de inversión</b> (criterio propio, explicado en cada ficha). En gobiernos no se puede invertir — ahí el badge mide otra cosa: <b>transparencia del dato</b>.</p>
+    </div>
+    <div class="filterbar" id="ent-filterbar">
+      <button class="filterbtn active" data-filter="todos">Todos</button>
+      <button class="filterbtn" data-filter="Empresa">Empresas</button>
+      <button class="filterbtn" data-filter="Gobierno">Gobiernos</button>
+      <button class="filterbtn" data-filter="Fondo">Fondos</button>
+    </div>
+    <div class="cardgrid reveal" id="ent-grid"></div>
+  </div>
+</section>
+</div>
+
+<div class="view" id="view-instrumentos">
+<!-- ============================= INSTRUMENTOS DE RIESGO ============================= -->
+<section id="instrumentos" class="dark">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">El corazón de la página</div>
+      <h2>24 instrumentos de deuda y acciones preferidas, desagregados término por término.</h2>
+      <p>Esto es lo que normalmente no se publica en ningún lado con este detalle: cupón exacto, si el dividendo se acumula o se pierde si no se paga, si está garantizado por BTC específico, y a qué precio de la acción el instrumento deja de tener sentido convertirlo. La columna "distancia al strike" se recalcula en el <a href="#simulador" class="nav-target inst-link" data-view="simulador" style="cursor:pointer;">simulador</a>.</p>
+    </div>
+    <div id="estado-actual" class="estado-actual-banner"></div>
+    <input type="text" id="inst-search" class="inst-search" placeholder="Buscá por nombre o ticker (ej: SATA, STRC, convertible)...">
+    <div class="filterbar" id="inst-filterbar">
+      <button class="filterbtn active" data-filter="todos">Todos</button>
+      <button class="filterbtn" data-filter="Strategy">Strategy</button>
+      <button class="filterbtn" data-filter="Strive">Strive</button>
+      <button class="filterbtn" data-filter="MARA">MARA</button>
+      <button class="filterbtn" data-filter="Metaplanet">Metaplanet</button>
+      <button class="filterbtn" data-filter="XXI">XXI</button>
+      <button class="filterbtn" data-filter="Trump Media">Trump Media</button>
+    </div>
+    <div class="instgrid reveal" id="inst-grid"></div>
+  </div>
+</section>
+</div>
+
+<!-- ============================= SIMULADOR ============================= -->
+<div class="view" id="view-simulador">
+<section id="simulador">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">El simulador</div>
+      <h2>Una sola palanca. Mirá qué se rompe.</h2>
+      <p>Esto no es un ejercicio teórico: cada número de abajo es una obligación contractual real de alguna de las entidades de este dataset. Mové el precio y vas a ver, en tiempo real, cuál de ellas deja de cubrir lo que debe.</p>
+    </div>
+
+    <div style="background:var(--ink);color:var(--text-onink);border-radius:var(--radius);padding:24px 26px;margin-bottom:32px;display:grid;grid-template-columns:140px 1fr;gap:24px;align-items:center;">
+      <div style="text-align:center;">
+        <div class="mono" style="font-size:42px;font-weight:700;color:#F0464B;line-height:1;">0,80x</div>
+        <div class="teaser-label" style="margin-top:6px;">cobertura</div>
+      </div>
+      <div>
+        <b style="font-family:var(--serif);font-size:16px;color:#F2F2F4;">El hallazgo central de todo este proyecto: la reserva de caja declarada por Strategy no alcanza a cubrir un año de sus propias obligaciones.</b>
+        <p style="font-size:13.5px;color:var(--text-onink-soft);margin-top:8px;line-height:1.6;">
+          Sumando los cupones de sus 6 convertibles (~US$35M/año, casi todos cupón cero) y los dividendos de sus 5 acciones preferidas (~US$1.057M/año, el 97% del total —
+          principalmente STRC), Strategy necesita <b class="mono" style="color:#F2F2F4;">≈ US$1.091M</b> en efectivo este año. La <b>USD Reserve</b> que la propia empresa declaró
+          (25-may-2026) es de <b class="mono" style="color:#F2F2F4;">US$871M</b>. Sin vender BTC, refinanciar, o emitir más acciones, no alcanza para los 12 meses completos. Esto
+          no es una hipótesis — es exactamente lo que ya empezó a pasar: la venta de 32 BTC en may-2026 para cubrir el dividendo de STRC.
+        </p>
+        <p style="font-size:12px;color:var(--text-onink-soft);margin-top:10px;">Este número es una obligación fija en dólares — no cambia con el precio de BTC. Lo que sí cambia con el precio (ver palanca abajo) es cuántos BTC haría falta vender para cubrirlo.</p>
+      </div>
+    </div>
+
+    <div class="cobertura-grid">
+      <div class="cobertura-item alarm">
+        <div class="cobertura-num">0,80x</div>
+        <div class="cobertura-nombre">Strategy</div>
+        <div class="cobertura-detalle">US$871M de reserva vs. US$1.091M de obligación anual — no llega a cubrir un año.</div>
+      </div>
+      <div class="cobertura-item aqua">
+        <div class="cobertura-num">~75x</div>
+        <div class="cobertura-nombre">MARA Holdings</div>
+        <div class="cobertura-detalle">Su deuda es mayormente cupón cero — casi sin presión de caja anual real.</div>
+      </div>
+      <div class="cobertura-item aqua">
+        <div class="cobertura-num">~23x</div>
+        <div class="cobertura-nombre">Twenty One Capital</div>
+        <div class="cobertura-detalle">Un solo instrumento, cupón bajo (1%) — obligación anual chica frente a su caja.</div>
+      </div>
+      <div class="cobertura-item aqua">
+        <div class="cobertura-num">N/A</div>
+        <div class="cobertura-nombre">Trump Media</div>
+        <div class="cobertura-detalle">Su única nota es cupón 0% — no genera ninguna obligación de caja que cubrir.</div>
+      </div>
+      <div class="cobertura-item aqua">
+        <div class="cobertura-num">+19 años</div>
+        <div class="cobertura-nombre">Strive Inc.</div>
+        <div class="cobertura-detalle">Reserva declarada (caja + BTC + tenencia de STRC) cubre el interés de SATA por casi dos décadas.</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text-soft);margin-top:-6px;margin-bottom:32px;">
+      Strategy es la única de las 5 con riesgo real de presión de caja anual — y es exactamente por su paquete grande de preferidas, que el resto no tiene en la misma magnitud.
+    </p>
+
+    <div class="howitworks reveal">
+      <div class="eyebrow" style="color:var(--gold);">¿Por qué usar esto?</div>
+      <p>Si tenés (o estás pensando poner) tu dinero en alguno de estos instrumentos, probablemente confiás en que la empresa va a poder seguir cumpliendo su promesa de pago. La pregunta real no es
+      si te conviene hoy — es <b>hasta qué precio de Bitcoin esa promesa se sostiene</b>. Acá no hace falta adivinar: escribí o arrastrá hasta el precio que a vos te preocupa — no un número al azar,
+      el que realmente te haría dudar — y mirá si el instrumento que te interesa sigue cubierto o no.</p>
+      <p style="margin-top:10px;">Técnicamente: es una sola variable que reemplaza al "precio de BTC" en todas las cuentas de esta página a la vez — la cobertura de cada garantía, cuánto haría falta vender
+      para cubrir cada dividendo, y el precio que probablemente tendría cada acción (estimado con su <span class="gloss" data-term="beta">beta</span> histórico) para ver si cruza su
+      <span class="gloss" data-term="strike">strike</span>. No predice el futuro — solo muestra, con la aritmética real de cada contrato, qué pasaría <em>si</em> BTC valiera eso.</p>
+    </div>
+
+    <div class="simlayout reveal">
+      <div class="simpanel">
+        <div class="teaser-label">Precio de BTC del escenario</div>
+        <div class="bignum" id="sim-price">$65.000</div>
+        <button type="button" id="sim-reset-btn" class="reset-price-btn">↺ Volver al precio actual (<span id="sim-reset-label">$65.000</span>)</button>
+
+        <div class="input-toggle">
+          <button class="toggle-btn active" data-mode="slider">Control deslizante</button>
+          <button class="toggle-btn" data-mode="number">Escribir el número</button>
+        </div>
+
+        <div id="mode-slider">
+          <input type="range" id="sim-slider" min="20000" max="160000" step="1000" value="65000">
+          <div class="slider-readout"><span>$20k</span><span id="sim-slider-val" class="mono" style="color:#F2F2F4;">$65k</span><span>$160k</span></div>
+        </div>
+        <div id="mode-number" style="display:none;">
+          <input type="number" id="sim-input" value="65000" step="1000" min="0" placeholder="Precio de BTC en USD">
+        </div>
+
+        <div class="simgrid">
+          <div class="simmetric"><div class="l">Cobertura garantía XXI</div><div class="v" id="m-xxi">—</div></div>
+          <div class="simmetric"><div class="l">BTC p/ dividendo STRC (año)</div><div class="v" id="m-strc">—</div></div>
+          <div class="simmetric"><div class="l">${termSpan('apalancamiento','Apalanc.')} MSTR / valor BTC</div><div class="v" id="m-mstr-lev">—</div></div>
+          <div class="simmetric"><div class="l">Valor BTC en libros MSTR</div><div class="v" id="m-mstr-val">—</div></div>
+          <div class="simmetric" style="grid-column:1 / -1;border-color:var(--alarm);">
+            <div class="l">BTC a vender por MSTR para cubrir su déficit de caja (US$220M)</div>
+            <div class="v bad" id="m-deficit">—</div>
+          </div>
+        </div>
+        <p style="font-size:11.5px;color:var(--text-onink-soft);margin-top:16px;line-height:1.5;">
+          Los precios de acciones se intentan traer en vivo (vía proxy); si no responden, se usa el último conocido — fijate la etiqueta "en vivo"/"respaldo" en cada instrumento.
+        </p>
+      </div>
+      <div>
+        <div class="teaser-label" style="margin-bottom:8px;">Elegí un instrumento para testear en detalle</div>
+        <select id="inst-select" class="inst-select"></select>
+        <div id="inst-select-detail" style="margin-top:16px;"></div>
+        <details style="margin-top:18px;">
+          <summary style="cursor:pointer;color:var(--text-soft);font-size:12.5px;">Ver la tabla completa de los 13 instrumentos con strike</summary>
+          <table class="walltable" id="sim-table" style="margin-top:12px;"></table>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============================= BETA TEORICO EN VIVO ============================= -->
+<div class="view" id="view-beta">
+<section id="beta-vivo">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">No es una foto fija — se recalcula con el día de hoy</div>
+      <h2>Beta teórico de la acción / BTC</h2>
+      <p>Con el beta histórico de cada acción (calculado con regresión real, no a ojo) y la variación de HOY de BTC, esto proyecta cuánto "debería" moverse cada acción — y lo compara contra cuánto se movió en realidad. Cuando no coinciden, hay algo más que BTC explicando el precio ese día.</p>
+    </div>
+    <div class="howitworks" style="margin-bottom:24px;">
+      <div class="eyebrow" style="color:var(--gold);">¿De dónde sale el número de Beta?</div>
+      <p>No lo estimamos a ojo ni lo inventamos. Para cada empresa, se descargaron <b>los precios reales de cierre de los últimos 6 meses</b> (vía <span class="gloss" data-term="yfinance">Yahoo Finance</span>) tanto de la acción como de Bitcoin, día por día (~121 días de mercado). Con esos dos listas de precios se calculó el cambio porcentual de cada día, y se corrió una <b>regresión estadística</b> (mínimos cuadrados ordinarios — el mismo método que usa cualquier analista financiero para esto) comparando "cuánto se movió la acción ese día" contra "cuánto se movió BTC ese día". El resultado de esa regresión — la pendiente de la recta que mejor ajusta esos puntos — es el Beta. No es una opinión: es un número que sale de hacerle la misma cuenta a 121 días reales de precios, uno por uno.</p>
+      <p style="margin-top:10px;">La columna <span class="gloss" data-term="r2">R²</span> de la tabla mide qué tan bien BTC explica el movimiento de cada acción en esos 121 días — más cerca de 1 significa que BTC explica casi todo; más cerca de 0 significa que hay otras cosas pesando más que BTC.</p>
+    </div>
+    <div id="beta-vivo-table"></div>
+    <p id="beta-recalc-nota" style="font-size:11px;color:var(--text-soft);margin-top:8px;">Calculando…</p>
+    <p style="font-size:11px;color:var(--text-soft);margin-top:4px;">"Sin dato hoy" en la columna Real no significa que no exista — es que el precio de apertura de hoy de esa acción depende de un servicio externo gratuito que falla seguido. Cuando carga, esta columna se llena sola.</p>
+    <div class="cita-doble" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;">
+      <div style="padding:16px 18px;background:var(--card);border:1px solid var(--gold);border-radius:var(--radius);">
+        <b style="font-family:var(--serif);font-size:14.5px;">MARA subió <span id="mara-ret-live">50,6%</span> mientras BTC caía <span id="mara-btc-live">26,8%</span>, en la misma ventana de 6 meses.</b>
+        <p style="font-size:12.5px;color:var(--text-soft);margin-top:6px;line-height:1.6;">No contradice su beta — el beta mide co-movimiento día a día, no protege de catalizadores propios de la empresa (en ese caso, su pivot a infraestructura de AI/HPC). El beta no es magia: es un promedio histórico, no una garantía.</p>
+      </div>
+      <div style="padding:16px 18px;background:var(--card);border:1px solid var(--gold);border-radius:var(--radius);">
+        <b style="font-family:var(--serif);font-size:14.5px;">STRC tuvo la caída y volatilidad más chicas de los 6 instrumentos — durante la mayor parte de esa ventana. La última semana contradijo eso.</b>
+        <p style="font-size:12.5px;color:var(--text-soft);margin-top:6px;line-height:1.6;">Drawdown de -10% y volatilidad de 15% en el backtest de 6 meses (dic-2025 a mediados de jun-2026) — contra -44% y 83% de MSTR. Eso fue real, con datos reales, para esa ventana. <b>Pero esa ventana no llega a cubrir del todo la última semana</b>: ahí STRC cayó a un mínimo histórico de ~25% bajo su valor nominal — un movimiento mucho más parecido al de un activo de riesgo que al de un "amortiguador". Las dos cosas conviven: se comportó como estaba diseñado durante la mayoría del período medido, y no lo hizo en el tramo más reciente y más duro — que es, además, el que más importa ahora mismo. Ver la nota actualizada en la tarjeta de STRC, en Instrumentos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============================= MURO ============================= -->
+<div class="view" id="view-muro">
+<section id="muro" class="dark">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">El muro de vencimientos</div>
+      <h2>28 fechas. Dos de ellas tienen más de un evento encima.</h2>
+      <p>El riesgo real de un convertible no es "BTC bajó" — es que llegue la fecha de put o vencimiento con la acción por debajo del strike. En rojo, los puts (el tenedor puede exigir el efectivo). El resto son vencimientos finales o calls opcionales para la empresa.</p>
+    </div>
+    <div class="timeline reveal" id="timeline"></div>
+    <div class="tlegend" id="timeline-legend"></div>
+  </div>
+</section>
+</div>
+
+<!-- ============================= FLUJOS DE FONDOS ============================= -->
+<div class="view" id="view-flujos">
+<section id="flujos">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Dato informativo, no de riesgo</div>
+      <h2>Cuánto entró o salió hoy de los 5 fondos.</h2>
+      <p>Flujo neto del día más reciente, en millones de USD. Puramente informativo.</p>
+    </div>
+    <div id="flows-content" style="margin-top:8px;">
+      <p class="mono" style="font-size:12.5px;color:var(--text-soft);">Cargando…</p>
+    </div>
+    <div style="margin-top:14px;display:flex;align-items:center;gap:14px;">
+      <button id="flows-retry" class="filterbtn">Reintentar ahora</button>
+      <span id="flows-date" class="mono" style="font-size:11px;color:var(--text-soft);"></span>
+    </div>
+
+    <div class="section-head reveal" style="margin-top:40px;">
+      <div class="eyebrow">Los mismos 5 fondos, de un vistazo</div>
+      <h2 style="font-size:22px;">Misma exposición, distinto costo y custodio.</h2>
+      <p>Los 5 hacen lo mismo (comprar y guardar BTC), pero no cobran lo mismo ni lo guardan en el mismo lugar. El <span class="gloss" data-term="custodio">custodio</span> es quién tiene la llave de ese Bitcoin en la práctica — no es un detalle menor. El auditor específico de cada fondo no está confirmado fondo por fondo — se omite en vez de adivinarlo.</p>
+    </div>
+    <div class="etf-grid">
+      <div class="etf-item">
+        <div class="etf-ticker">$IBIT</div>
+        <div class="etf-fee">0,25%</div>
+        <div class="etf-detalle">iShares (BlackRock) · Custodio: Coinbase Custody · El más grande, ~US$70.000M+ en activos.</div>
+      </div>
+      <div class="etf-item">
+        <div class="etf-ticker">$FBTC</div>
+        <div class="etf-fee">0,25%</div>
+        <div class="etf-detalle">Fidelity · Custodio: Fidelity Digital Assets (propio, no Coinbase) — el único de los 5 que no depende de un tercero externo.</div>
+      </div>
+      <div class="etf-item alarm">
+        <div class="etf-ticker">$GBTC</div>
+        <div class="etf-fee">1,50%</div>
+        <div class="etf-detalle">Grayscale · Custodio: Coinbase Custody · Por lejos el más caro — herencia de su estructura como fondo cerrado, previa a ser ETF.</div>
+      </div>
+      <div class="etf-item aqua">
+        <div class="etf-ticker">$ARKB</div>
+        <div class="etf-fee">0,21%</div>
+        <div class="etf-detalle">ARK Invest + 21Shares · Custodio: Coinbase Custody · ~US$2.500-3.600M en activos.</div>
+      </div>
+      <div class="etf-item aqua">
+        <div class="etf-ticker">$BITB</div>
+        <div class="etf-fee">0,20%</div>
+        <div class="etf-detalle">Bitwise · Custodio: Coinbase Custody · Publica sus direcciones de wallet — el más transparente de los 5 en ese sentido.</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============================= ARGENTINA ============================= -->
+<div class="view" id="view-argentina">
+<section id="argentina" class="dark">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Accesibilidad desde Argentina</div>
+      <h2>El acceso vino más resuelto de lo esperado — salvo para las preferidas.</h2>
+      <p>MSTR, Tesla, Block y MARA tienen <span class="gloss" data-term="cedear">CEDEAR</span> en BYMA. IBIT también — es, junto a un ETF de Ethereum, el primer ETF cripto en llegar al mercado argentino. El cuello de botella real son las 5 preferidas de MSTR: ahí no hay CEDEAR posible por diseño del instrumento (los CEDEAR solo cubren acciones comunes), así que hace falta un broker internacional con acceso directo al Nasdaq.</p>
+    </div>
+    <table class="acctable reveal" id="acc-table"></table>
+  </div>
+</section>
+</div>
+
+<!-- ============================= METODOLOGIA / FOOTER ============================= -->
+
+<div id="global-tooltip"></div>
+
+<div id="bottom-bar">
+  <div class="ticker-fixed">
+    <span class="tf-label">BTC</span>
+    <span class="tf-price" id="ticker-btc-price">$ —</span>
+  </div>
+  <div class="ticker-scroll">
+    <div class="ticker-track" id="ticker-track"></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   DATOS -- curados a mano desde el Excel de investigacion. Corte: 22-jun-2026.
+   ===================================================================== */
+const PRECIOS_RESPALDO = { mstr: 84.94, mara: 14.44, xxi: 5.54, djt: 7.40, strc: 75.83, strf: 90.75, strk: 53.39, strd: 51.76, asst: 11.68, sata: 83.25 };
+const PRECIOS_RESPALDO_FECHA = { mstr:"26-jun-2026", mara:"26-jun-2026", xxi:"25-jun-2026", djt:"26-jun-2026", strc:"27-jun-2026", strf:"24-jun-2026 (probablemente desactualizado — ver nota)", strk:"27-jun-2026", strd:"27-jun-2026", asst:"27-jun-2026", sata:"27-jun-2026" };
+const PRECIOS_PCT_RESPALDO = {};
+const FLOWS_RESPALDO = {};
+const PRECIOS_RESPALDO_ESTIMADO = {}; // ya no hay estimados a la par -- todos son cotizaciones reales investigadas, ver PRECIOS_RESPALDO_FECHA
+const BETAS = { mstr: 1.4733, mara: 1.2039, xxi: 1.1009, strc: 0.1983, djt: 0.53, asst: 1.7225 };
+const BTC_FALLBACK = 65000;
+
+/* =====================================================================
+   GLOSARIO -- terminos tecnicos explicados en simple. Se usan via <span
+   class="term" data-term="clave">palabra</span> y un tooltip al tocar.
+   ===================================================================== */
+const GLOSARIO = {
+  strike: "Es como el 'precio de canje' del bono: el valor que tiene que alcanzar la ACCIÓN de la empresa para que convertir el bono en acciones valga la pena. Se fija una sola vez, el día que se emite el bono, y no cambia nunca después — la acción es la que se mueve alrededor de ese número fijo.",
+  bajo_strike: "Significa que la acción de la empresa vale HOY menos que el precio de canje fijado en el bono. Si fuera tu decisión convertir ahora mismo, perderías plata — por eso casi nadie convierte en esta situación, y la empresa probablemente tenga que pagar en efectivo en vez de entregar acciones.",
+  sobre_strike: "Significa que la acción de la empresa vale HOY más que el precio de canje fijado en el bono. Convertir ahora le convendría al tenedor — recibiría acciones que valen más que lo que puso. Es la situación que la empresa generalmente prefiere evitar, porque diluye a los accionistas existentes.",
+  convertible: "Un bono que el tenedor puede cambiar por acciones de la empresa en vez de cobrar en efectivo, si le conviene.",
+  garantizado: "Significa que hay un activo específico (en este caso, Bitcoin) reservado para pagarle al tenedor si la empresa no puede. Sin garantía, el tenedor solo tiene la promesa de pago de la empresa.",
+  acumulable: "Si la empresa no paga el dividendo de un período, queda pendiente y se suma al próximo pago. Si NO es acumulable, ese dividendo simplemente se pierde para siempre.",
+  put: "El derecho del tenedor de un bono a exigirle a la empresa que le pague en efectivo antes del vencimiento final, en una fecha específica.",
+  call: "El derecho de la EMPRESA (no del tenedor) a recomprar el bono antes de tiempo si quiere. Es opcional para la empresa, no una obligación.",
+  mnav: "Compara el valor de mercado de la empresa contra el valor de su Bitcoin en caja. Por debajo de 1x, el mercado valora la empresa por menos de lo que tiene en BTC.",
+  vencimiento: "La fecha final en la que, si no se convirtió ni se pagó antes, la empresa debe devolver el monto completo.",
+  beta: "Cuánto se mueve el precio de una acción por cada 1% que se mueve Bitcoin, en promedio histórico. Un beta de 1,5 significa que sube o baja un 50% más que BTC.",
+  liquidacion_preferente: "El monto que recibe el tenedor de una acción preferida antes que los accionistas comunes, si la empresa se liquida.",
+  cedear: "Un \"certificado\" que se compra y vende en la bolsa argentina (BYMA), pero representa una acción que en realidad está guardada afuera, en EE.UU. Te permite invertir en pesos, desde un broker argentino, sin abrir una cuenta en el exterior — pero solo existe para acciones comunes, nunca para preferidas.",
+  apalancamiento: "Cuánto se \"amplifica\" un movimiento. Si una empresa tiene apalancamiento de 2x sobre su Bitcoin, significa que un 10% de cambio en el precio de BTC mueve el valor de la empresa un 20% — para arriba o para abajo, en las dos direcciones por igual.",
+  due_diligence: "El trabajo de chequear con cuidado los números y la letra chica de algo antes de poner plata — en vez de confiar a ciegas en lo que dice quien te lo vende.",
+  custodio: "La entidad que físicamente guarda el Bitcoin del fondo, en sus propias billeteras frías. Si el custodio quiebra o sufre un hackeo, ese riesgo le pega directo al fondo — por eso importa saber quién es, no solo confiar en el nombre del ETF.",
+  yfinance: "Una herramienta gratuita y pública que descarga precios históricos reales directamente de Yahoo Finance — el mismo dato que vería cualquiera buscando la acción ahí. No es una estimación: son los precios de cierre que de verdad tuvo cada día.",
+  r2: "Va de 0 a 1. Te dice qué porcentaje del movimiento de la acción se explica solo por el movimiento de Bitcoin. Un R² de 0,39, por ejemplo, significa que el 39% del movimiento se explica por BTC — el otro 61% es por otras razones (noticias de la empresa, tasas de interés, lo que sea).",
+};
+
+function termSpan(key, label){
+  const def = GLOSARIO[key];
+  if(!def) return label;
+  return `<span class="gloss" data-term="${key}">${label}</span>`;
+}
+
+const ENTIDADES = [
+  {nombre:"Strategy", tipo:"Empresa", ticker:"MSTR", btc:846842, mnav:0.82, riesgo:"alto",
+   tendencia:"Acumulando, con una venta puntual de 32 BTC en may-2026", nota:"Cobertura de caja a 12 meses: 0,80x — no llega a cubrir un año de cupones+dividendos sin vender BTC, refinanciar o emitir más."},
+  {nombre:"Strive Inc.", tipo:"Empresa", ticker:"ASST", btc:19000, mnav:null, riesgo:"medio",
+   tendencia:"Acumulando muy agresivamente (de 5.957 a 19.000 BTC entre sep-2025 y jun-2026)", nota:"A diferencia de MSTR, financia todo con acciones preferidas (SATA) y mantiene un balance sin deuda convertible. Su reserva declarada cubre +19 años de interés de SATA — mucho más conservador que MSTR. También posee ~US$47-50M en STRC (la preferida de Strategy) como parte de su propia reserva."},
+  {nombre:"Twenty One Capital", tipo:"Empresa", ticker:"XXI", btc:43514, mnav:0.65, riesgo:"alto",
+   tendencia:"Sin acumulación adicional desde el lanzamiento (dic-2025)", nota:"La Clase A pública no tiene voto en absoluto. Todo el control está en Tether."},
+  {nombre:"Metaplanet", tipo:"Empresa", ticker:"3350.T", btc:40177, mnav:0.82, riesgo:"medio",
+   tendencia:"Acumulando agresivamente", nota:"Sus preferidas MARS y Mercury todavía no cotizan públicamente — demora confirmada por exigencias regulatorias japonesas."},
+  {nombre:"MARA Holdings", tipo:"Empresa", ticker:"MARA", btc:38689, mnav:null, riesgo:"medio",
+   tendencia:"Vendiendo BTC para desapalancar (primera vez en su historia)", nota:"Único con negocio operativo real (minería + AI/HPC). Su deuda es mayormente cupón cero, sin presión de caja anual relevante."},
+  {nombre:"Tesla", tipo:"Empresa", ticker:"TSLA", btc:11509, mnav:null, riesgo:"bajo",
+   tendencia:"Sin cambios desde 2022", nota:"BTC es ~0,05% del market cap — tenencia pasiva, no estratégica."},
+  {nombre:"Trump Media", tipo:"Empresa", ticker:"DJT", btc:9542, mnav:null, riesgo:"alto",
+   tendencia:"Diversificando hacia Cronos (CRO) y opciones", nota:"Control familiar: ~41% de las acciones en un Trust con Donald Trump Jr. como único fiduciario."},
+  {nombre:"Block", tipo:"Empresa", ticker:"XYZ", btc:8998, mnav:null, riesgo:"bajo",
+   tendencia:"Estable", nota:"Único con prueba de reservas on-chain pública y voluntaria."},
+
+  {nombre:"Estados Unidos", tipo:"Gobierno", ticker:"—", btc:328000, mnav:null, transparencia:"media",
+   tendencia:"Sin cifra oficial confirmada", nota:"Custodia fragmentada entre 3 agencias. Incidente de seguridad confirmado (~US$60M) en ene-2026."},
+  {nombre:"El Salvador", tipo:"Gobierno", ticker:"—", btc:7687, mnav:null, transparencia:"media",
+   tendencia:"Disputado", nota:"El FMI cuestiona si las 'compras' anunciadas son reales o reordenamiento de wallets que ya tenía."},
+  {nombre:"Reino Unido", tipo:"Gobierno", ticker:"—", btc:61000, mnav:null, transparencia:"media",
+   tendencia:"En litigio", nota:"Disputa legal abierta: ¿quién se queda con la apreciación de un activo confiscado?"},
+  {nombre:"China", tipo:"Gobierno", ticker:"—", btc:194775, mnav:null, transparencia:"baja",
+   tendencia:"Probablemente decreciente, sin confirmar", nota:"Cero divulgación oficial. Evidencia on-chain de ventas silenciosas desde 2022."},
+  {nombre:"Bután", tipo:"Gobierno", ticker:"—", btc:3119, mnav:null, transparencia:"baja",
+   tendencia:"Vendiendo activamente", nota:"La entidad estatal niega ventas que la evidencia on-chain muestra con claridad."},
+  {nombre:"Ucrania", tipo:"Gobierno", ticker:"—", btc:46351, mnav:null, transparencia:"baja",
+   tendencia:"Sin actualización reciente", nota:"No es una tesorería gestionada — es la suma de wallets de donación dispersas."},
+
+  {nombre:"iShares Bitcoin Trust", tipo:"Fondo", ticker:"IBIT", btc:770792, mnav:null, riesgo:"bajo",
+   tendencia:"Líder en AUM y liquidez", nota:"Fee 0,25%. Custodio: Coinbase. Auditor: PwC."},
+  {nombre:"Grayscale Bitcoin Trust", tipo:"Fondo", ticker:"GBTC", btc:158000, mnav:null, riesgo:"medio",
+   tendencia:"Saliendo capital sostenidamente", nota:"Fee 1,50% — el más caro de la categoría."},
+  {nombre:"Fidelity Wise Origin", tipo:"Fondo", ticker:"FBTC", btc:185798, mnav:null, riesgo:"bajo",
+   tendencia:"Segundo en AUM", nota:"Único de los grandes que autocustodia (Fidelity Digital Assets)."},
+  {nombre:"ARK 21Shares Bitcoin ETF", tipo:"Fondo", ticker:"ARKB", btc:37645, mnav:null, riesgo:"bajo",
+   tendencia:"Estable", nota:"Joint venture entre ARK Invest y 21Shares. Fee 0,21%."},
+  {nombre:"Bitwise Bitcoin ETF", tipo:"Fondo", ticker:"BITB", btc:38931, mnav:null, riesgo:"bajo",
+   tendencia:"Saliendo capital", nota:"Único con examen diario de reservas por auditor independiente, público."},
+];
+
+/* betaKey vincula el instrumento a un beta + precio de referencia para proyectar bajo escenario */
+const INSTRUMENTOS = [
+  {entidad:"Strategy", nombre:"STRF — Strife (preferida)", cat:"Preferida", cupon:"10% fijo", acumulable:"Sí", convertible:false, garantizado:false, venc:"Perpetua", monto:"US$1.284M (liq. pref.)", strike:null, betaKey:null, riesgo:"medio", ticker:"STRF", cotiza:"Nasdaq", nota:"La más senior de las preferidas."},
+  {entidad:"Strategy", nombre:"STRC — Stretch (preferida)", cat:"Preferida", cupon:"11,5% variable (sostenida 4 meses seguidos)", acumulable:"Sí", convertible:false, garantizado:false, venc:"Perpetua", monto:"US$5.025M (liq. pref.)", strike:null, betaKey:"strc", riesgo:"alto", ticker:"STRC", cotiza:"Nasdaq", nota:"Es de tasa VARIABLE a propósito: el directorio puede subir o bajar el cupón cada mes específicamente para defender el precio cerca de US$100 (su valor nominal). Le subieron la tasa varias veces (9% → 10% → 10,5% → 11,5%) y aun así cayó a un mínimo histórico de ~US$74-76 (26-jun-2026, ~25% bajo par) — el mecanismo de defensa no está funcionando. Por estar bajo par, Strategy pausó el programa de emisión de nuevas acciones (su forma habitual de financiar compras de BTC). Forzó la primera venta de BTC de la historia de Strategy (may-2026)."},
+  {entidad:"Strategy", nombre:"STRK — Strike (preferida)", cat:"Preferida", cupon:"8% fijo", acumulable:"Sí", convertible:true, garantizado:false, venc:"Perpetua", monto:"US$1.402M (liq. pref.)", strike:null, betaKey:null, riesgo:"medio", ticker:"STRK", cotiza:"Nasdaq", nota:"Única convertible a MSTR común (10:1)."},
+  {entidad:"Strategy", nombre:"STRD — Stride (preferida)", cat:"Preferida", cupon:"10% fijo", acumulable:"NO", convertible:false, garantizado:false, venc:"Perpetua", monto:"US$1.402M (liq. pref.)", strike:null, betaKey:null, riesgo:"alto", ticker:"STRD", cotiza:"Nasdaq", nota:"La única NO acumulativa — si se difiere, se pierde para el tenedor."},
+  {entidad:"Strategy", nombre:"STRE — Stream, en EUR (preferida)", cat:"Preferida", cupon:"10% fijo", acumulable:"Sí", convertible:false, garantizado:false, venc:"Perpetua", monto:"€892M (liq. pref.)", strike:null, betaKey:null, riesgo:"medio", ticker:"STRE", cotiza:"Bolsa de Luxemburgo (LuxSE)", nota:"Única en euros. Baja liquidez."},
+  {entidad:"Strategy", nombre:"0,625% Convertible due 2028", cat:"Convertible", cupon:"0,625%", acumulable:"N/A", convertible:true, garantizado:false, venc:"15-sep-2028", monto:"US$1.010M", strike:183.19, betaKey:"mstr", riesgo:"medio", ticker:null, cotiza:"No cotiza públicamente (colocación privada 144A)", nota:"Put del tenedor: 15-sep-2027."},
+  {entidad:"Strategy", nombre:"0% Convertible due 2029", cat:"Convertible", cupon:"0%", acumulable:"N/A", convertible:true, garantizado:false, venc:"1-dic-2029", monto:"US$1.500M (post-recompra)", strike:672.40, betaKey:"mstr", riesgo:"medio", ticker:null, cotiza:"No cotiza públicamente (colocación privada 144A)", nota:"Recompra parcial de US$1.500M en may-2026."},
+  {entidad:"Strategy", nombre:"0,625% Convertible due 2030 (2030A)", cat:"Convertible", cupon:"0,625%", acumulable:"N/A", convertible:true, garantizado:false, venc:"15-mar-2030", monto:"US$800M", strike:149.77, betaKey:"mstr", riesgo:"medio", ticker:null, cotiza:"No cotiza públicamente (colocación privada 144A)", nota:"Put del tenedor: 15-sep-2028."},
+  {entidad:"Strategy", nombre:"0% Convertible due 2030 (2030B)", cat:"Convertible", cupon:"0%", acumulable:"N/A", convertible:true, garantizado:false, venc:"1-mar-2030", monto:"US$2.000M", strike:433.43, betaKey:"mstr", riesgo:"medio", ticker:null, cotiza:"No cotiza públicamente (colocación privada 144A)", nota:"Put del tenedor: 1-mar-2028."},
+  {entidad:"Strategy", nombre:"0,875% Convertible due 2031", cat:"Convertible", cupon:"0,875%", acumulable:"N/A", convertible:true, garantizado:false, venc:"15-mar-2031", monto:"US$603,7M", strike:232.72, betaKey:"mstr", riesgo:"medio", ticker:null, cotiza:"No cotiza públicamente (colocación privada 144A)", nota:""},
+  {entidad:"Strategy", nombre:"2,25% Convertible due 2032", cat:"Convertible", cupon:"2,25%", acumulable:"N/A", convertible:true, garantizado:false, venc:"15-jun-2032", monto:"US$800M", strike:204.33, betaKey:"mstr", riesgo:"medio", ticker:null, cotiza:"No cotiza públicamente (colocación privada 144A)", nota:"El de mayor cupón de los 6."},
+
+  {entidad:"Strive", nombre:"SATA — Variable Rate Perpetual Preferred", cat:"Preferida", cupon:"13,00% variable, fijada mes a mes por el directorio", acumulable:"Sí", convertible:false, garantizado:false, venc:"Perpetua", monto:"~US$751,4M (liq. pref., 7.513.907 acciones a jun-2026)", strike:null, betaKey:"sata", riesgo:"alto", ticker:"SATA", cotiza:"Nasdaq", nota:"Actualización (27-jun-2026): durante la caída acelerada de bitcoin de esta semana, SATA también cayó fuerte — de cerca de par a ~US$83, un descuento de ~17%. El contraste con STRC que documentamos antes (que a SATA el mecanismo de defensa SÍ le funcionaba) se achicó: ahora las dos están lejos de par al mismo tiempo. Lo que sigue siendo distinto es la reserva: Strive declara que su caja + BTC + tenencia de STRC cubre +19 años de interés de SATA — mucho más conservador que la cobertura de 0,80x de MSTR — así que la diferencia no es el precio de hoy, es cuánto margen tiene cada una para aguantar esta presión sin quedarse sin caja."},
+  {entidad:"Strive", nombre:"Convertibles residuales (heredados de Semler Scientific)", cat:"Convertible", cupon:"No especificado en fuentes consultadas", acumulable:"N/A", convertible:true, garantizado:false, venc:"No especificado", monto:"~US$10M remanente (el 90% del saldo original, ~US$90M de US$100M, ya se canjeó por acciones SATA)", strike:null, betaKey:null, riesgo:"bajo", ticker:null, cotiza:"No cotiza públicamente", nota:"Heredados de la fusión con Semler Scientific (2025) — casi totalmente extinguidos vía canje por SATA."},
+
+  {entidad:"MARA", nombre:"1,00% Convertible due 2026", cat:"Convertible", cupon:"1,00%", acumulable:"N/A", convertible:true, garantizado:false, venc:"1-dic-2026", monto:"US$48,1M", strike:76.17, betaKey:"mara", riesgo:"bajo", ticker:null, cotiza:"No cotiza públicamente (colocación privada 144A)", nota:"La serie más antigua y más chica."},
+  {entidad:"MARA", nombre:"0% Convertible due 2030", cat:"Convertible", cupon:"0%", acumulable:"N/A", convertible:true, garantizado:false, venc:"1-mar-2030", monto:"US$632,5M (post-recompra)", strike:25.91, betaKey:"mara", riesgo:"bajo", ticker:null, cotiza:"No cotiza públicamente (colocación privada 144A)", nota:"Converge con el vencimiento de Strategy 2030B el mismo día."},
+  {entidad:"MARA", nombre:"0% Convertible due 2031 (2031-A)", cat:"Convertible", cupon:"0%", acumulable:"N/A", convertible:true, garantizado:false, venc:"1-jun-2031", monto:"US$291,6M (post-recompra)", strike:34.58, betaKey:"mara", riesgo:"bajo", ticker:null, cotiza:"No cotiza públicamente (colocación privada 144A)", nota:""},
+  {entidad:"MARA", nombre:"2,125% Convertible due 2031 (2031-B)", cat:"Convertible", cupon:"2,125%", acumulable:"N/A", convertible:true, garantizado:false, venc:"1-sep-2031", monto:"US$300M", strike:18.89, betaKey:"mara", riesgo:"bajo", ticker:null, cotiza:"No cotiza públicamente (colocación privada 144A)", nota:"La única con cupón distinto de cero."},
+  {entidad:"MARA", nombre:"0% Convertible due 2032", cat:"Convertible", cupon:"0%", acumulable:"N/A", convertible:true, garantizado:false, venc:"1-ago-2032", monto:"US$1.025M", strike:20.26, betaKey:"mara", riesgo:"bajo", ticker:null, cotiza:"No cotiza públicamente (colocación privada 144A)", nota:"Capped call a US$24,14."},
+
+  {entidad:"Metaplanet", nombre:"MARS — Clase A (preferida)", cat:"Preferida", cupon:"Variable mensual", acumulable:"N/A (diseñada para no acumular)", convertible:false, garantizado:false, venc:"Perpetua", monto:"Monto no confirmado", strike:null, betaKey:null, riesgo:"alto", ticker:null, cotiza:"Todavía no cotiza — listado demorado (confirmado may-2026)", nota:"Demora confirmada por el CEO. Riesgo de liquidez, no de crédito."},
+  {entidad:"Metaplanet", nombre:"MERCURY — Clase B (preferida)", cat:"Preferida", cupon:"4,9% fijo", acumulable:"Sí", convertible:true, garantizado:false, venc:"Perpetua", monto:"¥21.250M (~US$150M)", strike:null, betaKey:null, riesgo:"alto", ticker:null, cotiza:"Todavía no cotiza — listado demorado (confirmado may-2026)", nota:"Mismo motivo que MARS. Convertible a ¥1.000/acción a largo plazo."},
+  {entidad:"Metaplanet", nombre:"Credit facility garantizada por BTC", cat:"Deuda", cupon:"No especificado", acumulable:"N/A", convertible:false, garantizado:true, venc:"Revolvente", monto:"US$500M (capacidad); ~US$280M usado", strike:null, betaKey:null, riesgo:"bajo", ticker:null, cotiza:"No cotiza (deuda bilateral privada)", nota:"Garantizada explícitamente por BTC en tenencia."},
+  {entidad:"Metaplanet", nombre:"Bonos rotativos EVO Fund", cat:"Deuda", cupon:"0%", acumulable:"N/A", convertible:false, garantizado:false, venc:"Rotativa, sin vencim. fijo", monto:"~¥8.000M (~US$50M)", strike:null, betaKey:null, riesgo:"medio", ticker:null, cotiza:"No cotiza (colocación privada con EVO Fund)", nota:"Estructura atípica: se auto-redime ligada al ejercicio de warrants del mismo fondo."},
+
+  {entidad:"XXI", nombre:"1,00% Convertible SECURED due 2030", cat:"Convertible", cupon:"1,00%", acumulable:"N/A", convertible:true, garantizado:true, venc:"1-dic-2030", monto:"US$486,5M", strike:13.87, betaKey:"xxi", riesgo:"medio", ticker:null, cotiza:"No cotiza públicamente (nota garantizada privada)", nota:"Garantizada por 16.116 BTC específicos — gatillo de cobertura puro en BTC (ver simulador)."},
+
+  {entidad:"Trump Media", nombre:"0% Convertible SECURED due 2028", cat:"Convertible", cupon:"0%", acumulable:"N/A", convertible:true, garantizado:true, venc:"29-may-2028", monto:"US$1.000M", strike:34.72, betaKey:"djt", riesgo:"medio", ticker:null, cotiza:"No cotiza públicamente (nota garantizada privada)", nota:"Put del tenedor: 30-nov-2026. Cupón cero: sin presión de caja anual para la empresa."},
+];
+
+const MURO = [
+  {f:"2026-06-30", e:"Strategy", i:"STRC (preferida)", t:"DIVIDENDO", m:null, n:"Primer pago bajo el nuevo esquema quincenal.", k:1},
+  {f:"2026-11-30", e:"Trump Media", i:"Convertible due 2028", t:"PUT", m:1000000000, n:"", k:23},
+  {f:"2026-12-01", e:"MARA", i:"1,00% due 2026", t:"VENCIMIENTO", m:48077000, n:"", k:13},
+  {f:"2026-12-04", e:"Strategy", i:"0% due 2029", t:"CALL", m:1500000000, n:"Recompra ya en marcha desde may-2026.", k:6},
+  {f:"2027-03-05", e:"Strategy", i:"0% due 2030 (2030B)", t:"CALL", m:2000000000, n:"", k:8},
+  {f:"2027-03-22", e:"Strategy", i:"0,625% due 2030 (2030A)", t:"CALL", m:800000000, n:"", k:7},
+  {f:"2027-09-15", e:"Strategy", i:"0,625% due 2028", t:"PUT", m:1010000000, n:"", k:5},
+  {f:"2027-12-01", e:"MARA", i:"0% due 2030", t:"PUT", m:632540000, n:"", k:14},
+  {f:"2028-03-01", e:"Strategy", i:"0% due 2030 (2030B)", t:"PUT", m:2000000000, n:"", k:8},
+  {f:"2028-03-05", e:"MARA", i:"0% due 2030", t:"CALL", m:632540000, n:"", k:14},
+  {f:"2028-03-22", e:"Strategy", i:"0,875% due 2031", t:"CALL", m:603659000, n:"", k:9},
+  {f:"2028-05-29", e:"Trump Media", i:"Convertible SECURED due 2028", t:"VENCIMIENTO", m:1000000000, n:"Fecha exacta confirmada via 8-K.", k:23},
+  {f:"2028-09-06", e:"MARA", i:"2,125% due 2031-B", t:"CALL", m:300000000, n:"", k:16},
+  {f:"2028-09-15", e:"Strategy", i:"0,625% due 2028", t:"VENCIMIENTO", m:1010000000, n:"Mismo día que el PUT de 2030A — doble evento Strategy.", k:5},
+  {f:"2028-09-15", e:"Strategy", i:"0,625% due 2030 (2030A)", t:"PUT", m:800000000, n:"Mismo día que el vencimiento de 2028.", k:7},
+  {f:"2029-03-01", e:"MARA", i:"0% due 2031-A", t:"PUT", m:291584000, n:"Mismo día que el PUT de 2031-B.", k:15},
+  {f:"2029-03-01", e:"MARA", i:"2,125% due 2031-B", t:"PUT", m:300000000, n:"Mismo día que el PUT de 2031-A.", k:16},
+  {f:"2029-06-20", e:"Strategy", i:"2,25% due 2032", t:"CALL", m:800000000, n:"", k:10},
+  {f:"2029-12-01", e:"Strategy", i:"0% due 2029", t:"VENCIMIENTO", m:1500000000, n:"Saldo post-recompra.", k:6},
+  {f:"2030-01-04", e:"MARA", i:"0% due 2032", t:"PUT", m:1025000000, n:"", k:17},
+  {f:"2030-03-01", e:"Strategy", i:"0% due 2030 (2030B)", t:"VENCIMIENTO", m:2000000000, n:"CONVERGENCIA con MARA 2030, mismo día.", k:8},
+  {f:"2030-03-01", e:"MARA", i:"0% due 2030", t:"VENCIMIENTO", m:632540000, n:"CONVERGENCIA con Strategy 2030B, mismo día.", k:14},
+  {f:"2030-03-15", e:"Strategy", i:"0,625% due 2030 (2030A)", t:"VENCIMIENTO", m:800000000, n:"", k:7},
+  {f:"2030-12-01", e:"XXI", i:"Convertible SECURED due 2030", t:"VENCIMIENTO", m:486500000, n:"", k:22},
+  {f:"2031-03-15", e:"Strategy", i:"0,875% due 2031", t:"VENCIMIENTO", m:603659000, n:"", k:9},
+  {f:"2031-06-01", e:"MARA", i:"0% due 2031-A", t:"VENCIMIENTO", m:291584000, n:"", k:15},
+  {f:"2031-09-01", e:"MARA", i:"2,125% due 2031-B", t:"VENCIMIENTO", m:300000000, n:"", k:16},
+  {f:"2032-06-15", e:"Strategy", i:"2,25% due 2032", t:"VENCIMIENTO", m:800000000, n:"", k:10},
+  {f:"2032-08-01", e:"MARA", i:"0% due 2032", t:"VENCIMIENTO", m:1025000000, n:"", k:17},
+];
+
+const ACCESIBILIDAD = [
+  {e:"Strategy (MSTR)", cedear:true, plat:"No necesaria", nota:"Confirmado en tabla oficial BYMA."},
+  {e:"Tesla", cedear:true, plat:"No necesaria", nota:"Uno de los CEDEAR más líquidos del mercado en general."},
+  {e:"Block", cedear:true, plat:"No necesaria", nota:"Listado en BYMA bajo el nombre anterior 'Square Inc.'"},
+  {e:"MARA Holdings", cedear:true, plat:"No necesaria", nota:"Confirmado, ratio según broker."},
+  {e:"iShares Bitcoin Trust (IBIT)", cedear:true, plat:"No necesaria", nota:"Primer ETF de bitcoin en llegar a BYMA."},
+  {e:"Twenty One Capital (XXI)", cedear:false, plat:"Broker de EE.UU.", nota:"No confirmado en BYMA — listado muy reciente."},
+  {e:"Trump Media (DJT)", cedear:false, plat:"Broker de EE.UU.", nota:"No confirmado en BYMA pese a cotizar desde 2024."},
+  {e:"Metaplanet", cedear:false, plat:"Broker con acceso a Tokyo / OTCQX", nota:"El más difícil de los 8 — mercado japonés."},
+  {e:"Strive Inc. (ASST)", cedear:false, plat:"Broker de EE.UU.", nota:"Confirmado: no tiene CEDEAR. Empresa muy reciente (debut nov-2025), igual que XXI."},
+  {e:"STRC / STRF / STRK / STRD / STRE (preferidas MSTR)", cedear:false, plat:"Broker internacional con acceso al Nasdaq", nota:"Limitación estructural: los CEDEAR solo existen para acciones comunes, nunca para preferidas."},
+  {e:"SATA (preferida de Strive)", cedear:false, plat:"Broker de EE.UU.", nota:"Misma limitación estructural que las preferidas de MSTR — los CEDEAR no cubren acciones preferidas."},
+  {e:"GBTC / FBTC / ARKB / BITB", cedear:false, plat:"Broker de EE.UU.", nota:"IBIT fue el único ETF de bitcoin incorporado a BYMA hasta el corte de datos."},
+];
+
+/* =====================================================================
+   RENDER
+   ===================================================================== */
+const fmtUSD = n => "$" + Math.round(n).toLocaleString("es-AR");
+const fmtUSDc = n => "US$" + (n/1e6 >= 1000 ? (n/1e9).toFixed(2)+"B" : Math.round(n/1e6)+"M");
+const fmtPct = n => (n>=0?"+":"") + (n*100).toFixed(1) + "%";
+
+function riskBadge(r){
+  if(!r) return '<span class="badge na">N/D</span>';
+  return `<span class="badge ${r}">Riesgo: ${r}</span>`;
+}
+function transparencyBadge(t){
+  // alta transparencia = buena (verde) -> reusa la clase "bajo" (verde); baja = mala (rojo) -> clase "alto"
+  const map = {alta:"bajo", media:"medio", baja:"alto"};
+  if(!t) return '<span class="badge na">N/D</span>';
+  return `<span class="badge ${map[t]}">Transparencia: ${t}</span>`;
+}
+
+function renderEntidades(filter){
+  const grid = document.getElementById("ent-grid");
+  grid.innerHTML = "";
+  ENTIDADES.filter(e => filter==="todos" || e.tipo===filter).forEach((e, idx)=>{
+    const valor = e.btc * (window.__btcLive || BTC_FALLBACK);
+    const esGobierno = e.tipo === "Gobierno";
+    grid.insertAdjacentHTML("beforeend", `
+      <div class="entcard card-stagger" style="animation-delay:${idx*45}ms;">
+        <button class="inst-toggle" type="button">
+          <div class="top-row">
+            <div><h4>${e.nombre}</h4><div class="sub">${e.tipo}${e.ticker!=="—"?" · $"+e.ticker:""}</div></div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              ${esGobierno ? transparencyBadge(e.transparencia) : riskBadge(e.riesgo)}
+              <span class="chevron">▾</span>
+            </div>
+          </div>
+        </button>
+        <div class="inst-details">
+          ${esGobierno ? `<div style="font-size:10.5px;color:var(--text-soft);font-style:italic;margin-top:10px;">No es un activo invertible directamente — esto mide calidad y transparencia del dato, no riesgo de inversión.</div>` : ""}
+          <div class="terms" style="margin-top:10px;">
+            <div class="term"><span class="l">BTC en tesorería</span><span class="v">${e.btc.toLocaleString("es-AR")}</span></div>
+            <div class="term"><span class="l">Valor BTC</span><span class="v">${fmtUSDc(valor)}</span></div>
+            ${e.mnav ? `<div class="term"><span class="l">${termSpan('mnav','mNAV')}</span><span class="v">${e.mnav.toFixed(2)}x</span></div>` : ""}
+            <div class="term"><span class="l">Tendencia</span><span class="v" style="font-size:12px;font-weight:500;">${e.tendencia}</span></div>
+          </div>
+          <div class="note">${e.nota}</div>
+        </div>
+      </div>`);
+  });
+}
+
+window.PRECIOS_LIVE = {};
+function getStockPrice(key){
+  return (window.PRECIOS_LIVE && window.PRECIOS_LIVE[key]) || PRECIOS_RESPALDO[key];
+}
+
+function renderEstadoActual(){
+  const btcActual = window.__btcLive || BTC_FALLBACK;
+  let total = 0, bajo = 0;
+  INSTRUMENTOS.forEach(i=>{
+    if(!i.strike || !i.betaKey) return;
+    total++;
+    const d = distanciaStrike(i.strike, i.betaKey, btcActual);
+    if(d.distancia < 0) bajo++;
+  });
+  if(total === 0) return;
+  const hayRiesgo = bajo > 0;
+  const htmlInstrumentos = `<div class="estado-actual ${hayRiesgo?'warn':'ok'}">
+    <b>${hayRiesgo ? '⚠' : '✓'} Con el precio de BTC de ahora (${fmtSimMoney(btcActual)}), ${bajo} de ${total} instrumentos con strike están por debajo de su precio de conversión.</b>
+    <span>No hace falta tocar nada para ver esto — se recalcula solo. Para explorar otros precios, usá el <a href="#simulador" class="nav-target" data-view="simulador" style="color:inherit;text-decoration:underline;cursor:pointer;">simulador</a>.</span>
+  </div>`;
+  const htmlInicio = `<a href="#instrumentos" class="nav-target estado-actual-link ${hayRiesgo?'warn':'ok'}" data-view="instrumentos">
+    <b>${hayRiesgo ? '⚠' : '✓'} Ahora mismo: ${bajo} de ${total} instrumentos están por debajo de su precio de conversión.</b>
+    <span>Tocá para ver cuáles, sin escribir nada →</span>
+  </a>`;
+  const boxInst = document.getElementById("estado-actual");
+  if(boxInst){
+    boxInst.innerHTML = htmlInstrumentos;
+    boxInst.querySelector(".nav-target")?.addEventListener("click", (e)=>{
+      e.preventDefault();
+      window.navigateTo ? window.navigateTo("simulador") : null;
+    });
+  }
+  const boxInicio = document.getElementById("estado-actual-inicio");
+  if(boxInicio){
+    boxInicio.innerHTML = htmlInicio;
+    boxInicio.querySelector(".nav-target")?.addEventListener("click", (e)=>{
+      e.preventDefault();
+      window.navigateTo ? window.navigateTo("instrumentos") : null;
+    });
+  }
+}
+
+function distanciaStrike(strike, betaKey, btcPrice){
+  if(!strike || !betaKey) return null;
+  const precioBase = getStockPrice(betaKey);
+  const beta = BETAS[betaKey];
+  const btcBase = BTC_FALLBACK;
+  const precioProyectado = precioBase * (1 + beta * (btcPrice/btcBase - 1));
+  return {precioProyectado, distancia: precioProyectado/strike - 1};
+}
+
+const ENTITY_TICKER = {"Strategy":"MSTR","MARA":"MARA","Metaplanet":"3350.T","XXI":"XXI","Trump Media":"DJT","Strive":"ASST"};
+
+function renderInstrumentos(filter, btcPrice, searchTerm){
+  const grid = document.getElementById("inst-grid");
+  grid.innerHTML = "";
+  const q = (searchTerm || "").trim().toLowerCase();
+  let mostrados = 0;
+  INSTRUMENTOS.forEach((i, idx)=>{
+    if(filter!=="todos" && i.entidad!==filter) return;
+    if(q){
+      const haystack = `${i.entidad} ${i.nombre} ${i.ticker||""} ${i.cat}`.toLowerCase();
+      if(!haystack.includes(q)) return;
+    }
+    mostrados++;
+    let strikeBlock = "";
+    if(i.strike){
+      const d = distanciaStrike(i.strike, i.betaKey, btcPrice);
+      const cls = d.distancia < 0 ? "warnflag" : "okflag";
+      const txt = d.distancia < 0 ? "bajo strike" : "sobre strike";
+      strikeBlock = `<div class="term"><span class="l">${termSpan('strike','Strike')}</span><span class="v">$${i.strike.toFixed(2)}</span></div>
+                     <div class="term"><span class="l">Precio proy. (escenario)</span><span class="v">$${d.precioProyectado.toFixed(2)}</span></div>`;
+      strikeBlock += `<div class="flags"><span class="flag ${cls}">${termSpan(txt==='bajo strike'?'bajo_strike':'sobre_strike', txt)} (${fmtPct(d.distancia)})</span></div>`;
+    }
+    const entTicker = ENTITY_TICKER[i.entidad];
+    let liveBlock = "";
+    const priceKey = i.ticker ? i.ticker.toLowerCase() : (i.betaKey || null);
+    if(priceKey && PRECIOS_RESPALDO[priceKey] !== undefined){
+      const live = window.PRECIOS_LIVE && window.PRECIOS_LIVE[priceKey];
+      const precio = getStockPrice(priceKey);
+      const fechaResp = PRECIOS_RESPALDO_FECHA[priceKey] || "fecha sin precisar";
+      liveBlock = `<div class="term"><span class="l">Precio $${i.ticker||entTicker||''}</span><span class="v">$${precio.toFixed(2)} <span style="font-size:9px;color:${live?'var(--safe)':'var(--text-soft)'};">${live?'(en vivo)':'(al '+fechaResp+')'}</span></span></div>`;
+    } else if(i.ticker){
+      liveBlock = `<div class="term" style="grid-column:1 / -1;"><span class="l">Precio</span><span class="v" style="font-size:11.5px;font-weight:400;color:var(--text-soft);">No disponible — cotiza fuera de las fuentes que usamos (Stooq/EE.UU.). Cotiza en ${i.cotiza}, en otra moneda/mercado.</span></div>`;
+    }
+    let breakeven = "";
+    if(i.strike && i.betaKey){
+      const dLive = distanciaStrike(i.strike, i.betaKey, window.__btcLive || BTC_FALLBACK);
+      const cubierto = dLive.distancia >= 0;
+      breakeven = `<div class="breakeven-line ${cubierto?'ok':'warn'}">${cubierto ? '✓' : '⚠'} Con el precio de BTC de ahora, ${cubierto ? 'sigue por encima' : 'está por debajo'} de su precio de conversión (${fmtPct(dLive.distancia)})</div>`;
+    }
+    grid.insertAdjacentHTML("beforeend", `
+      <div class="instcard" id="inst-card-${idx}">
+        <button class="inst-toggle" type="button">
+          <div class="head">
+            <div><div class="entity-of">${entTicker ? '$'+entTicker+' · ' : ''}${i.entidad}</div><h4>${i.nombre}</h4></div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              ${riskBadge(i.riesgo)}
+              <span class="chevron">▾</span>
+            </div>
+          </div>
+          <div class="ticker-row">
+            ${i.ticker ? `<span class="ticker-tag">$${i.ticker}</span>` : ""}
+            <span class="cotiza-tag">${i.cotiza}</span>
+          </div>
+          ${breakeven}
+        </button>
+        <div class="inst-details">
+          <div class="terms">
+            <div class="term"><span class="l">Cupón / dividendo</span><span class="v">${i.cupon}</span></div>
+            <div class="term"><span class="l">${termSpan('vencimiento','Vencimiento')}</span><span class="v">${i.venc}</span></div>
+            <div class="term"><span class="l">${termSpan('acumulable','Acumulable')}</span><span class="v">${i.acumulable}</span></div>
+            <div class="term"><span class="l">${i.cat==='Preferida' ? termSpan('liquidacion_preferente','Monto') : 'Monto'}</span><span class="v">${i.monto}</span></div>
+            ${liveBlock}
+            ${strikeBlock}
+          </div>
+          <div class="flags">
+            ${i.garantizado ? `<span class="flag okflag">${termSpan('garantizado','garantizado por BTC')}</span>` : `<span class="flag">${termSpan('garantizado','no garantizado')}</span>`}
+            ${i.convertible ? `<span class="flag">${termSpan('convertible','convertible')}</span>` : ""}
+          </div>
+          ${i.nota ? `<div class="note" style="margin-top:10px;">${i.nota}</div>` : ""}
+        </div>
+      </div>`);
+  });
+  if(mostrados === 0){
+    grid.innerHTML = `<div class="no-results">No encontramos ningún instrumento con "<b>${searchTerm||""}</b>" en este filtro. Probá otro término, o tocá "Todos" arriba.</div>`;
+  }
+}
+
+const ENT_CLASS = {"Strategy":"ent-mstr","MARA":"ent-mara","XXI":"ent-xxi","Trump Media":"ent-djt"};
+
+const TICKER_COLOR = {
+  mstr:"#4F8EF7", strf:"#4F8EF7", strc:"#4F8EF7", strk:"#4F8EF7", strd:"#4F8EF7", stre:"#4F8EF7",
+  mara:"#6FCF97", xxi:"#BB86FC", djt:"#FF6B6B", asst:"#F2A93B", sata:"#F2A93B",
+};
+const TICKER_LIST = [
+  {key:"mstr", label:"MSTR"}, {key:"strc", label:"STRC"}, {key:"strf", label:"STRF"},
+  {key:"strk", label:"STRK"}, {key:"strd", label:"STRD"},
+  {key:"mara", label:"MARA"},
+  {key:"xxi", label:"XXI"},
+  {key:"djt", label:"DJT"},
+  {key:"asst", label:"ASST"}, {key:"sata", label:"SATA"},
+];
+
+function renderTicker(){
+  const track = document.getElementById("ticker-track");
+  if(!track) return;
+
+  // Primera vez: se construye la estructura UNA SOLA VEZ (duplicada para el loop continuo).
+  // Llamadas siguientes: solo se actualiza el texto de cada numero, nunca se reconstruye el
+  // HTML -- reconstruirlo reiniciaba la animacion cada vez que llegaba un precio nuevo (el bug).
+  if(!track.dataset.built){
+    let html = "";
+    [0,1].forEach(copy=>{
+      TICKER_LIST.forEach(t=>{
+        html += `<span class="tick-item" data-key="${t.key}-${copy}">
+          <span class="tick-ticker">$${t.label}</span>
+          <span class="tick-price" id="tp-${t.key}-${copy}">$ —</span>
+          <span class="tick-pct flat" id="tc-${t.key}-${copy}">—</span>
+        </span>`;
+      });
+    });
+    track.innerHTML = html;
+    track.dataset.built = "1";
+  }
+
+  [0,1].forEach(copy=>{
+    TICKER_LIST.forEach(t=>{
+      const precio = getStockPrice(t.key);
+      const priceEl = document.getElementById(`tp-${t.key}-${copy}`);
+      const pctEl = document.getElementById(`tc-${t.key}-${copy}`);
+      if(!priceEl || !pctEl) return;
+      if(precio === undefined){
+        priceEl.closest(".tick-item").style.display = "none";
+        return;
+      }
+      priceEl.textContent = "$"+precio.toFixed(2);
+      const pctLive = window.PRECIOS_PCT && window.PRECIOS_PCT[t.key];
+      const pct = pctLive !== undefined ? pctLive : PRECIOS_PCT_RESPALDO[t.key];
+      const pctCls = pct === undefined ? "flat" : (pct > 0 ? "pos" : pct < 0 ? "neg" : "flat");
+      pctEl.textContent = pct === undefined ? "—" : (pct>=0?"+":"") + (pct*100).toFixed(2) + "%";
+      pctEl.className = "tick-pct " + pctCls;
+    });
+  });
+}
+
+function renderMuro(){
+  const tl = document.getElementById("timeline");
+  tl.innerHTML = "";
+  const hoy = new Date("2026-06-22");
+  MURO.forEach(ev=>{
+    const fecha = new Date(ev.f);
+    const dias = Math.round((fecha - hoy) / 86400000);
+    const isPut = ev.t === "PUT";
+    const entClass = ENT_CLASS[ev.e] || "";
+    const instLink = `<span class="inst-link" data-jump="${ev.k}">${ev.i}</span>`;
+    tl.insertAdjacentHTML("beforeend", `
+      <div class="tlitem ${entClass} ${isPut?"put":""}">
+        <div class="tldate">${fecha.toLocaleDateString("es-AR",{day:"2-digit",month:"short",year:"numeric"})} — ${ev.t}</div>
+        <div class="tlbody"><b>${ev.e}</b> — ${instLink}${ev.m?` (${fmtUSDc(ev.m)})`:""}</div>
+        ${ev.n?`<div class="tldays">${ev.n}</div>`:""}
+        <div class="tldays">${dias>=0? dias+" días desde hoy" : "ya pasó"}</div>
+      </div>`);
+  });
+  document.getElementById("timeline-legend").innerHTML = `
+    <span><i style="background:#4F8EF7;"></i>Strategy</span>
+    <span><i style="background:#6FCF97;"></i>MARA</span>
+    <span><i style="background:#BB86FC;"></i>XXI</span>
+    <span><i style="background:#FF6B6B;"></i>Trump Media</span>
+    <span><i style="background:var(--card);border:2px solid var(--alarm);"></i>Anillo rojo = evento PUT</span>`;
+}
+
+function jumpToInstrument(idx){
+  if(idx===undefined || idx===null || isNaN(idx)) return;
+  // Ahora Instrumentos es una vista separada del Simulador y del Muro -- hay que
+  // cambiar de vista primero, o la tarjeta queda escondida en una vista oculta.
+  if(window.navigateTo) window.navigateTo("instrumentos");
+  // Asegurar que el filtro de instrumentos este en "todos" para que la tarjeta exista en el DOM
+  const filterBar = document.getElementById("inst-filterbar");
+  if(filterBar){
+    filterBar.querySelectorAll(".filterbtn").forEach(b=>b.classList.remove("active"));
+    filterBar.querySelector('[data-filter="todos"]')?.classList.add("active");
+  }
+  renderInstrumentos("todos", Number(document.getElementById("sim-slider")?.value || BTC_FALLBACK), document.getElementById("inst-search")?.value);
+  requestAnimationFrame(()=>{
+    const card = document.getElementById(`inst-card-${idx}`);
+    if(!card) return;
+    card.scrollIntoView({behavior:"smooth", block:"center"});
+    card.classList.add("expanded");
+    card.classList.add("flash");
+    setTimeout(()=>card.classList.remove("flash"), 1400);
+  });
+}
+
+function renderAccesibilidad(){
+  const t = document.getElementById("acc-table");
+  t.innerHTML = `<tr><th>Entidad / instrumento</th><th>¿CEDEAR en BYMA?</th><th>Si no hay CEDEAR</th><th>Nota</th></tr>` +
+    ACCESIBILIDAD.map(a=>`<tr>
+      <td>${a.e}</td>
+      <td><span class="yn ${a.cedear?'si':'no'}">${a.cedear?'SÍ':'NO'}</span></td>
+      <td class="mono" style="font-size:12px;">${a.plat}</td>
+      <td style="color:var(--text-onink-soft);font-size:12.5px;">${a.nota}</td>
+    </tr>`).join("");
+}
+
+/* =====================================================================
+   SIMULADOR -- la palanca que recalcula todo
+   ===================================================================== */
+function fmtSimMoney(n){ return "$" + Math.round(n).toLocaleString("es-AR"); }
+
+function populateInstSelect(){
+  const sel = document.getElementById("inst-select");
+  sel.innerHTML = "";
+  INSTRUMENTOS.forEach((i, idx)=>{
+    if(!i.strike || !i.betaKey) return;
+    const opt = document.createElement("option");
+    opt.value = idx;
+    opt.textContent = `${i.entidad} — ${i.nombre}`;
+    sel.appendChild(opt);
+  });
+}
+
+function renderSelectDetail(btcPrice){
+  const sel = document.getElementById("inst-select");
+  const box = document.getElementById("inst-select-detail");
+  if(!sel || !sel.value){ if(box) box.innerHTML = ""; return; }
+  const i = INSTRUMENTOS[Number(sel.value)];
+  if(!i){ box.innerHTML = ""; return; }
+  const d = distanciaStrike(i.strike, i.betaKey, btcPrice);
+  const isPut = d.distancia < 0;
+  const precioActual = getStockPrice(i.betaKey);
+  const live = window.PRECIOS_LIVE && window.PRECIOS_LIVE[i.betaKey];
+  box.innerHTML = `
+    <div class="select-detail-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
+        <div>
+          <div class="entity-of">${i.entidad}${ENTITY_TICKER[i.entidad] ? ' · $'+ENTITY_TICKER[i.entidad] : ''}</div>
+          <h4 style="font-size:15px;margin-top:2px;">${i.nombre}</h4>
+        </div>
+        ${riskBadge(i.riesgo)}
+      </div>
+      <div class="terms" style="margin-top:12px;">
+        <div class="term"><span class="l">${termSpan('strike','Strike')}</span><span class="v">$${i.strike.toFixed(2)}</span></div>
+        <div class="term"><span class="l">Precio actual${live?' (en vivo)':' (al '+(PRECIOS_RESPALDO_FECHA[i.betaKey]||'')+')'}</span><span class="v">$${precioActual.toFixed(2)}</span></div>
+        <div class="term"><span class="l">Precio proyectado (escenario)</span><span class="v">$${d.precioProyectado.toFixed(2)}</span></div>
+        <div class="term"><span class="l">Distancia al strike</span><span class="v">${fmtPct(d.distancia)}</span></div>
+      </div>
+      <div class="flags" style="margin-top:10px;">
+        <span class="flag ${isPut?'warnflag':'okflag'}">${termSpan(isPut?'bajo_strike':'sobre_strike', isPut?'bajo strike':'sobre strike')}</span>
+        ${i.garantizado ? '<span class="flag okflag">garantizado por BTC</span>' : ''}
+      </div>
+      <p style="font-size:12px;color:var(--text-soft);margin-top:10px;line-height:1.5;">
+        ${isPut
+          ? `Con BTC en este escenario, la acción proyectada ($${d.precioProyectado.toFixed(2)}) queda por debajo del strike — es muy probable que el tenedor NO convierta y pida el efectivo en su próxima fecha de put/vencimiento.`
+          : `Con BTC en este escenario, la acción proyectada ($${d.precioProyectado.toFixed(2)}) supera el strike — convertir le convendría al tenedor, lo cual diluiría a los accionistas comunes.`}
+      </p>
+      <button type="button" class="inst-link" data-jump="${INSTRUMENTOS.indexOf(i)}" style="margin-top:10px;background:none;border:none;font-family:inherit;font-size:12px;padding:0;">Ver esta tarjeta completa ↓</button>
+    </div>`;
+}
+
+function runSimulation(btcPrice){
+  window.__btcLive = window.__btcLive || BTC_FALLBACK; // precio "real" no se toca, este es el escenario
+  document.getElementById("sim-price").textContent = fmtSimMoney(btcPrice);
+  document.getElementById("sim-slider-val").textContent = "$"+Math.round(btcPrice/1000)+"k";
+
+  // XXI cobertura de garantia
+  const xxiCov = (16116.3 * btcPrice) / 486500000;
+  const mXxi = document.getElementById("m-xxi");
+  mXxi.textContent = xxiCov.toFixed(2)+"x";
+  mXxi.className = "v " + (xxiCov < 1 ? "bad" : xxiCov < 1.5 ? "mid" : "ok");
+
+  // STRC dividendo en BTC equivalente
+  const strcBtc = 577834865 / btcPrice;
+  document.getElementById("m-strc").textContent = Math.round(strcBtc).toLocaleString("es-AR")+" BTC";
+
+  // MSTR apalancamiento
+  const mstrVal = 846842 * btcPrice;
+  const mstrLev = 8165122000 / mstrVal;
+  const mLev = document.getElementById("m-mstr-lev");
+  mLev.textContent = (mstrLev*100).toFixed(1)+"%";
+  mLev.className = "v " + (mstrLev > 0.3 ? "mid" : "ok");
+  document.getElementById("m-mstr-val").textContent = fmtUSDc(mstrVal);
+
+  // Deficit de caja de MSTR (1.091.306.001 necesidad - 871.000.000 reserva = 220.306.001 fijo en USD)
+  // a cubrir vendiendo BTC al precio del escenario
+  const deficitUSD = 1091306001 - 871000000;
+  const btcParaCubrir = deficitUSD / btcPrice;
+  document.getElementById("m-deficit").textContent = Math.round(btcParaCubrir).toLocaleString("es-AR")+" BTC";
+
+  renderSelectDetail(btcPrice);
+
+  // Tabla del muro (los convertibles con beta)
+  const tbl = document.getElementById("sim-table");
+  let rows = `<tr><th>Instrumento</th><th>Strike</th><th>Precio proy.</th><th>Estado</th></tr>`;
+  INSTRUMENTOS.forEach((i, idx)=>{
+    if(!i.strike || !i.betaKey) return;
+    const d = distanciaStrike(i.strike, i.betaKey, btcPrice);
+    const isPut = d.distancia < 0;
+    rows += `<tr class="${isPut?'put':''}">
+      <td>${i.entidad} — <span class="inst-link" data-jump="${idx}">${i.nombre}</span></td>
+      <td class="num">$${i.strike.toFixed(2)}</td>
+      <td class="num">$${d.precioProyectado.toFixed(2)}</td>
+      <td>${isPut?'bajo strike':'sobre strike'}</td>
+    </tr>`;
+  });
+  tbl.innerHTML = rows;
+
+  // Re-render instrumentos (para que el badge de distancia al strike se actualice)
+  const activeInstFilter = document.querySelector("#inst-filterbar .active")?.dataset.filter || "todos";
+  renderInstrumentos(activeInstFilter, btcPrice, document.getElementById("inst-search")?.value);
+}
+
+/* =====================================================================
+   PRECIO DE BTC EN VIVO (CoinGecko, client-side)
+   ===================================================================== */
+async function fetchBtcLive(){
+  const pill = document.getElementById("live-pill");
+  const priceEl = document.getElementById("btc-live-price");
+  const resetLabel = document.getElementById("sim-reset-label");
+  try{
+    const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true");
+    const json = await res.json();
+    const price = json.bitcoin.usd;
+    window.__btcLive = price;
+    window.__btc24h = json.bitcoin.usd_24h_change !== undefined ? json.bitcoin.usd_24h_change/100 : null;
+    priceEl.textContent = fmtSimMoney(price);
+    pill.textContent = "en vivo";
+    pill.classList.remove("off");
+  }catch(e){
+    window.__btcLive = BTC_FALLBACK;
+    window.__btc24h = null;
+    priceEl.textContent = fmtSimMoney(BTC_FALLBACK) + " (respaldo)";
+    pill.textContent = "sin conexión — usando respaldo";
+    pill.classList.add("off");
+  }
+  if(resetLabel) resetLabel.textContent = fmtSimMoney(window.__btcLive);
+  const tickerBtc = document.getElementById("ticker-btc-price");
+  if(tickerBtc) tickerBtc.textContent = fmtSimMoney(window.__btcLive);
+  // Re-render lo que depende del precio "real" (no del escenario)
+  renderEntidades(document.querySelector("#ent-filterbar .active")?.dataset.filter || "todos");
+  renderBetaLive();
+  renderEstadoActual();
+}
+
+function renderBetaLive(){
+  const box = document.getElementById("beta-vivo-table");
+  if(!box) return;
+  if(window.__btc24h === null || window.__btc24h === undefined){
+    box.innerHTML = `<p style="font-size:13px;color:var(--text-soft);">Esperando la variación de 24hs de BTC en vivo para poder calcular esto…</p>`;
+    return;
+  }
+  const R2_RESPALDO = {mstr:0.7252, mara:0.4539, xxi:0.5763, djt:0.19, asst:0.5007};
+  window.ANALISIS_LIVE = window.ANALISIS_LIVE || {};
+  const empresas = [
+    {nombre:"Strategy", key:"mstr"}, {nombre:"MARA Holdings", key:"mara"},
+    {nombre:"Twenty One Capital", key:"xxi"}, {nombre:"Trump Media", key:"djt"},
+    {nombre:"Strive Inc.", key:"asst"},
+  ];
+  let rows = `<div class="beta-row headrow"><div>Empresa</div><div>Beta</div><div>${termSpan('r2','R²')}</div><div>BTC 24h</div><div>Esperado</div><div>Real</div></div>`;
+  empresas.forEach(e=>{
+    const live = window.ANALISIS_LIVE[e.key];
+    const beta = live ? live.beta : BETAS[e.key];
+    const r2 = live ? live.r2 : R2_RESPALDO[e.key];
+    const esperado = beta * window.__btc24h;
+    const real = (window.PRECIOS_PCT && window.PRECIOS_PCT[e.key] !== undefined) ? window.PRECIOS_PCT[e.key] : PRECIOS_PCT_RESPALDO[e.key];
+    const esRespaldo = !(window.PRECIOS_PCT && window.PRECIOS_PCT[e.key] !== undefined) && PRECIOS_PCT_RESPALDO[e.key] !== undefined;
+    const tieneReal = real !== undefined;
+    rows += `<div class="beta-row">
+      <div class="bt-ticker">${e.nombre}${live?' <span style="color:var(--safe);font-size:9px;" title="Beta y R² recalculados ahora mismo con 6 meses de precios reales de Yahoo Finance">●</span>':''}</div>
+      <div class="bt-num">${beta.toFixed(2)}</div>
+      <div class="bt-num" style="color:var(--text-soft);">${(r2*100).toFixed(0)}%</div>
+      <div class="bt-num">${fmtPct(window.__btc24h)}</div>
+      <div class="bt-num">${fmtPct(esperado)}</div>
+      <div class="bt-num" style="color:${tieneReal ? (Math.abs(real-esperado)>0.03 ? 'var(--gold)' : 'var(--aqua)') : 'var(--text-soft)'};" ${(!tieneReal)?'title="No pudimos traer el precio de apertura de hoy de esta acción (depende de un servicio externo gratuito que falla seguido) — no es que no exista el dato, es que la fuente no respondió."':''}>${tieneReal ? fmtPct(real) + (esRespaldo?' <span style="font-size:9px;">(diario)</span>':'') : 'sin dato hoy ⓘ'}</div>
+    </div>`;
+  });
+  box.innerHTML = rows;
+  const hayLive = Object.keys(window.ANALISIS_LIVE).length > 0;
+  const nota = document.getElementById("beta-recalc-nota");
+  if(nota) nota.innerHTML = hayLive
+    ? `<span style="color:var(--safe);">●</span> = beta y R² recalculados ahora mismo con 6 meses de datos reales de Yahoo Finance, en tu navegador. Sin el punto, es la última corrida manual confirmada.`
+    : `Todavía no se pudo recalcular en vivo (depende de Yahoo Finance) — estos son los últimos valores confirmados a mano.`;
+}/* =====================================================================
+   FLUJOS DE FONDOS -- intento via proxy CORS publico, meramente informativo.
+   Si falla (proxy caido, fuente cambio de formato), muestra error honesto,
+   nunca un numero inventado.
+   ===================================================================== */
+/* =====================================================================
+   PRECIOS DE ACCIONES/PREFERIDAS EN VIVO -- mejor esfuerzo via proxy CORS
+   (igual logica que los flujos: si falla, se queda con el respaldo y no
+   rompe nada -- nunca un numero inventado).
+   ===================================================================== */
+const FINNHUB_KEY = "d8vlfr9r01qgrv4p8shg";
+const ALPHAVANTAGE_KEY = "BD0FCH7MXZ579I6C";
+
+/* =====================================================================
+   ANALISIS HISTORICO EN VIVO -- mismo calculo que haciamos a mano con
+   yfinance/statsmodels, pero corrido en el navegador con datos reales de
+   Yahoo Finance. Si Yahoo no deja pasar el pedido, no se actualiza nada
+   y se sigue viendo el ultimo numero confirmado a mano (con su fecha).
+   ===================================================================== */
+async function fetchHistorico6m(ticker){
+  try{
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=6mo`;
+    const res = await Promise.race([
+      fetch(url),
+      new Promise((_, reject) => setTimeout(()=>reject(new Error("timeout")), 8000))
+    ]);
+    if(!res.ok) return null;
+    const json = await res.json();
+    const result = json?.chart?.result?.[0];
+    const timestamps = result?.timestamp;
+    const closes = result?.indicators?.quote?.[0]?.close;
+    if(!timestamps || !closes) return null;
+    const porFecha = {};
+    timestamps.forEach((t, i)=>{
+      if(closes[i] === null || closes[i] === undefined) return;
+      const fecha = new Date(t*1000).toISOString().slice(0,10); // YYYY-MM-DD
+      porFecha[fecha] = closes[i];
+    });
+    return porFecha;
+  }catch(e){
+    return null;
+  }
+}
+
+function regresionOLS(x, y){
+  const n = x.length;
+  const mediaX = x.reduce((a,b)=>a+b,0)/n;
+  const mediaY = y.reduce((a,b)=>a+b,0)/n;
+  let sumXY=0, sumXX=0, sumYY=0;
+  for(let i=0;i<n;i++){
+    sumXY += (x[i]-mediaX)*(y[i]-mediaY);
+    sumXX += (x[i]-mediaX)**2;
+    sumYY += (y[i]-mediaY)**2;
+  }
+  const beta = sumXY/sumXX;
+  const r2 = (sumXY*sumXY)/(sumXX*sumYY); // r al cuadrado
+  return {beta, r2};
+}
+
+async function analizarInstrumentoEnVivo(ticker){
+  const [histBtc, histTicker] = await Promise.all([
+    fetchHistorico6m("BTC-USD"),
+    fetchHistorico6m(ticker)
+  ]);
+  if(!histBtc || !histTicker) return null;
+
+  // Solo se usan las fechas donde hay dato de los dos (BTC opera todos los dias, la accion no)
+  const fechas = Object.keys(histTicker).filter(f => histBtc[f] !== undefined).sort();
+  if(fechas.length < 20) return null; // muy pocos datos en comun -- no es confiable
+
+  const btcSerie = fechas.map(f => histBtc[f]);
+  const tkSerie = fechas.map(f => histTicker[f]);
+
+  // Retornos diarios (% de cambio dia a dia)
+  const btcRet = [], tkRet = [];
+  for(let i=1;i<fechas.length;i++){
+    btcRet.push(btcSerie[i]/btcSerie[i-1] - 1);
+    tkRet.push(tkSerie[i]/tkSerie[i-1] - 1);
+  }
+
+  const {beta, r2} = regresionOLS(btcRet, tkRet);
+
+  // Retorno total del periodo
+  const retorno = tkSerie[tkSerie.length-1]/tkSerie[0] - 1;
+  const retornoBTC = btcSerie[btcSerie.length-1]/btcSerie[0] - 1;
+
+  // Caida maxima (drawdown): la mayor caida desde un pico hasta un valle, en toda la serie
+  let pico = tkSerie[0], drawdown = 0;
+  tkSerie.forEach(p=>{
+    if(p > pico) pico = p;
+    const caida = p/pico - 1;
+    if(caida < drawdown) drawdown = caida;
+  });
+
+  // Volatilidad: desvio estandar de los retornos diarios del periodo (sin anualizar,
+  // para que sea comparable con los numeros que ya teniamos del backtest original)
+  const mediaRet = tkRet.reduce((a,b)=>a+b,0)/tkRet.length;
+  const varianza = tkRet.reduce((a,b)=>a+(b-mediaRet)**2,0)/tkRet.length;
+  const volatilidad = Math.sqrt(varianza) * Math.sqrt(tkRet.length); // dispersión sobre todo el periodo
+
+  return {beta, r2, retorno, retornoBTC, drawdown, volatilidad, n: fechas.length};
+}
+
+async function recalcularBetasEnVivo(){
+  const tickers = {mstr:"MSTR", mara:"MARA", xxi:"XXI", djt:"DJT", asst:"ASST"};
+  for(const [key, ticker] of Object.entries(tickers)){
+    const resultado = await analizarInstrumentoEnVivo(ticker);
+    if(resultado){
+      window.ANALISIS_LIVE = window.ANALISIS_LIVE || {};
+      window.ANALISIS_LIVE[key] = resultado;
+      renderBetaLive(); // refresca la tabla a medida que cada empresa termina, no espera a las 5
+      if(key === "mara"){
+        const retEl = document.getElementById("mara-ret-live");
+        const btcEl = document.getElementById("mara-btc-live");
+        if(retEl) retEl.textContent = fmtPct(resultado.retorno) + " (en vivo)";
+        if(btcEl) btcEl.textContent = fmtPct(resultado.retornoBTC) + " (en vivo)";
+      }
+    }
+  }
+}
+
+async function fetchStockLive(ticker){
+  // Intento 1: Alpha Vantage -- sin verificacion de email de por medio, clave
+  // instantanea. Cuota MUY chica (25 pedidos/dia gratis en total, compartida entre
+  // los 10 instrumentos) -- por eso se intenta UNA SOLA VEZ POR SESION (la primera
+  // vez que se pide cada ticker despues de cargar la pagina). Las actualizaciones
+  // automaticas de ahi en mas no vuelven a gastar esta cuota tan chica.
+  window.__avIntentado = window.__avIntentado || {};
+  if(!window.__avIntentado[ticker]){
+    window.__avIntentado[ticker] = true;
+    try{
+      const avUrl = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker.toUpperCase()}&apikey=${ALPHAVANTAGE_KEY}`;
+      const res = await Promise.race([
+        fetch(avUrl),
+        new Promise((_, reject) => setTimeout(()=>reject(new Error("timeout")), 6000))
+      ]);
+      if(res.ok){
+        const json = await res.json();
+        const q = json?.["Global Quote"];
+        const close = q ? parseFloat(q["05. price"]) : null;
+        const prevClose = q ? parseFloat(q["08. previous close"]) : null;
+        if(close && close > 0){
+          const pctChange = (prevClose && prevClose > 0) ? (close/prevClose - 1) : null;
+          return {close, pctChange};
+        }
+      }
+    }catch(e){
+      // si Alpha Vantage falla (cuota agotada, lo que sea), seguimos con el plan B
+    }
+  }
+
+  // Intento 2: Finnhub -- esta SI esta pensada para que un navegador le pida
+  // datos directo, con una clave gratuita.
+  try{
+    const fhUrl = `https://finnhub.io/api/v1/quote?symbol=${ticker.toUpperCase()}&token=${FINNHUB_KEY}`;
+    const res = await Promise.race([
+      fetch(fhUrl),
+      new Promise((_, reject) => setTimeout(()=>reject(new Error("timeout")), 6000))
+    ]);
+    if(res.ok){
+      const json = await res.json();
+      const close = json?.c;
+      const prevClose = json?.pc;
+      if(close && close > 0){
+        const pctChange = (prevClose && prevClose > 0) ? (close/prevClose - 1) : null;
+        return {close, pctChange};
+      }
+    }
+  }catch(e){
+    // si Finnhub falla (rate limit, ticker no encontrado, lo que sea), seguimos con el plan C
+  }
+
+  // Intento 3: Yahoo Finance directo, sin proxy.
+  try{
+    const yUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker.toUpperCase()}?interval=1d&range=1d`;
+    const res = await Promise.race([
+      fetch(yUrl),
+      new Promise((_, reject) => setTimeout(()=>reject(new Error("timeout")), 6000))
+    ]);
+    if(res.ok){
+      const json = await res.json();
+      const result = json?.chart?.result?.[0];
+      const meta = result?.meta;
+      if(meta && meta.regularMarketPrice){
+        const close = meta.regularMarketPrice;
+        const prevClose = meta.chartPreviousClose || meta.previousClose;
+        const pctChange = (prevClose && prevClose > 0) ? (close/prevClose - 1) : null;
+        if(close > 0) return {close, pctChange};
+      }
+    }
+  }catch(e){
+    // si Yahoo directo falla (CORS bloqueado, lo que sea), seguimos con el plan C
+  }
+
+  // Intento 4: Stooq, vía cadena de proxies (el metodo de respaldo ya probado)
+  const url = `https://stooq.com/q/l/?s=${ticker}.us&f=sd2t2ohlcv&h&e=csv`;
+  const proxies = [
+    "https://api.allorigins.win/raw?url=" + encodeURIComponent(url),
+    "https://corsproxy.io/?url=" + encodeURIComponent(url),
+    "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(url),
+  ];
+  for(const proxy of proxies){
+    try{
+      const res = await Promise.race([
+        fetch(proxy),
+        new Promise((_, reject) => setTimeout(()=>reject(new Error("timeout")), 7000))
+      ]);
+      if(!res.ok) continue;
+      const text = await res.text();
+      const lines = text.trim().split("\n");
+      if(lines.length < 2) continue;
+      const fields = lines[1].split(",");
+      const open = parseFloat(fields[3]);
+      const close = parseFloat(fields[6]);
+      if(isNaN(close) || close <= 0) continue;
+      const pctChange = (!isNaN(open) && open > 0) ? (close/open - 1) : null;
+      return {close, pctChange};
+    }catch(e){
+      // probar el siguiente proxy
+    }
+  }
+  return null;
+}
+
+async function fetchAllStockPrices(soloEstos){
+  const tickers = soloEstos || ["mstr","mara","xxi","djt","strc","strf","strk","strd","asst","sata"];
+  const results = await Promise.all(tickers.map(t => fetchStockLive(t)));
+  let algunoVivo = false;
+  window.PRECIOS_PCT = window.PRECIOS_PCT || {};
+  tickers.forEach((t, i) => {
+    if(results[i] !== null){
+      window.PRECIOS_LIVE[t] = results[i].close;
+      if(results[i].pctChange !== null) window.PRECIOS_PCT[t] = results[i].pctChange;
+      algunoVivo = true;
+    }
+  });
+  // Re-render todo lo que usa estos precios
+  renderEntidades(document.querySelector("#ent-filterbar .active")?.dataset.filter || "todos");
+  renderInstrumentos(document.querySelector("#inst-filterbar .active")?.dataset.filter || "todos", Number(document.getElementById("sim-slider")?.value || BTC_FALLBACK), document.getElementById("inst-search")?.value);
+  renderTicker();
+  renderBetaLive();
+  renderEstadoActual();
+  return algunoVivo;
+}
+
+async function fetchFlows(){
+  const container = document.getElementById("flows-content");
+  const dateEl = document.getElementById("flows-date");
+  container.innerHTML = `<p class="mono" style="font-size:12.5px;color:var(--text-soft);">Buscando datos…</p>`;
+  dateEl.textContent = "";
+
+  const FUENTE = "https://farside.co.uk/btc/";
+  const PROXIES = [
+    FUENTE, // probar directo, sin proxy -- a veces el sitio permite el pedido sin intermediario
+    "https://api.allorigins.win/raw?url=" + encodeURIComponent(FUENTE),
+    "https://corsproxy.io/?url=" + encodeURIComponent(FUENTE),
+    "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(FUENTE),
+    "https://thingproxy.freeboard.io/fetch/" + FUENTE,
+  ];
+  const TICKERS = ["IBIT","FBTC","GBTC","ARKB","BITB"];
+
+  let lastError = null;
+  for(const PROXY of PROXIES){
+    try{
+      const res = await Promise.race([
+        fetch(PROXY),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("tiempo de espera agotado (8s)")), 8000))
+      ]);
+      if(!res.ok) throw new Error("el proxy respondió con error " + res.status);
+      const html = await res.text();
+      const doc = new DOMParser().parseFromString(html, "text/html");
+
+      const tablas = Array.from(doc.querySelectorAll("table"));
+      const tabla = tablas.find(t => t.innerText.includes("IBIT") && t.innerText.includes("FBTC"));
+      if(!tabla) throw new Error("no se encontró la tabla de flujos en la página fuente");
+
+      const filas = Array.from(tabla.querySelectorAll("tr")).map(tr =>
+        Array.from(tr.querySelectorAll("th,td")).map(c => c.innerText.trim())
+      ).filter(f => f.length > 1);
+
+      const headerIdx = filas.findIndex(f => f.includes("IBIT"));
+      if(headerIdx === -1) throw new Error("no se encontró la fila de encabezados");
+      const headers = filas[headerIdx];
+
+      const dataRow = filas.slice(headerIdx+1).find(f => f.length === headers.length);
+      if(!dataRow) throw new Error("no se encontró una fila de datos con el mismo ancho que el encabezado");
+
+      const fecha = dataRow[0];
+      let out = "";
+      let algunMatch = false;
+      TICKERS.forEach(tk=>{
+        const idx = headers.indexOf(tk);
+        if(idx >= 0 && dataRow[idx] !== undefined){
+          algunMatch = true;
+          const raw = dataRow[idx].replace(/[()]/g,"-").replace(/,/g,"");
+          const val = parseFloat(raw);
+          const cls = isNaN(val) ? "flat" : (val > 0 ? "pos" : val < 0 ? "neg" : "flat");
+          const display = isNaN(val) ? (dataRow[idx] || "—") : ( (val>=0?"+":"") + val.toLocaleString("es-AR") + "M" );
+          out += `<div class="flowcard"><div class="ticker">${tk}</div><div class="flowval ${cls}">${display}</div></div>`;
+        }
+      });
+      if(!algunMatch) throw new Error("no se pudo mapear ninguno de los 5 tickers a una columna");
+
+      container.innerHTML = `<div class="flowgrid">${out}</div>`;
+      dateEl.textContent = "Fecha del dato: " + (fecha || "no identificada") + " · Fuente: Farside Investors (vía proxy público)";
+      return; // exito -- no probar mas proxies
+    }catch(e){
+      lastError = e;
+      // probar el siguiente proxy de la lista
+    }
+  }
+
+  // si llegamos aca, todos los proxies fallaron -- usar el respaldo del robot diario, si existe
+  if(FLOWS_RESPALDO && FLOWS_RESPALDO.valores){
+    const TICKERS = ["IBIT","FBTC","GBTC","ARKB","BITB"];
+    let out = "";
+    TICKERS.forEach(tk=>{
+      const val = FLOWS_RESPALDO.valores[tk.toLowerCase()];
+      if(val === undefined) return;
+      const cls = val > 0 ? "pos" : val < 0 ? "neg" : "flat";
+      const display = (val>=0?"+":"") + val.toLocaleString("es-AR") + "M";
+      out += `<div class="flowcard"><div class="ticker">${tk}</div><div class="flowval ${cls}">${display}</div></div>`;
+    });
+    container.innerHTML = `<div class="flowgrid">${out}</div>`;
+    dateEl.textContent = "Fecha del dato: " + FLOWS_RESPALDO.fecha + " · Fuente: Farside Investors (vía robot diario, no en vivo)";
+    return;
+  }
+  {
+    const e = lastError || new Error("error desconocido");
+    const motivo = e.message;
+    container.innerHTML = `<div class="flow-error">Datos no disponibles ahora — probamos 5 vías distintas (directa + 4 proxies) y ninguna respondió o cambió de formato.
+      <span class="mono" style="display:block;margin-top:6px;font-size:11px;color:var(--text-soft);">Último detalle técnico: ${motivo}</span></div>`;
+    dateEl.textContent = "";
+  }
+}
+
+/* =====================================================================
+   INIT
+   ===================================================================== */
+function initFilters(barId, onChange, targetId){
+  document.querySelectorAll(`#${barId} .filterbtn`).forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      document.querySelectorAll(`#${barId} .filterbtn`).forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      const target = targetId ? document.getElementById(targetId) : null;
+      if(target){
+        target.classList.add("filter-fade");
+        setTimeout(()=>{
+          onChange(btn.dataset.filter);
+          requestAnimationFrame(()=> target.classList.remove("filter-fade"));
+        }, 160);
+      } else {
+        onChange(btn.dataset.filter);
+      }
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  // Fecha de hoy, calculada en el momento -- nunca queda vieja porque nunca esta escrita a mano
+  const hoyTexto = new Date().toLocaleDateString("es-AR", {day:"2-digit", month:"short", year:"numeric"});
+  const navAsof = document.getElementById("data-asof-nav");
+  const mobileAsof = document.getElementById("data-asof-mobile");
+  if(navAsof) navAsof.textContent = "Página cargada: " + hoyTexto;
+  if(mobileAsof) mobileAsof.textContent = "Página cargada: " + hoyTexto;
+
+  // ===================== ROUTER (SPA, sin recarga de pagina) =====================
+  function navigateTo(viewName, pushState){
+    const target = document.getElementById("view-"+viewName);
+    if(!target) viewName = "inicio";
+    document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+    (document.getElementById("view-"+viewName) || document.getElementById("view-inicio")).classList.add("active");
+    document.querySelectorAll(".nav-target").forEach(a=>{
+      a.classList.toggle("active", a.dataset.view === viewName);
+    });
+    if(pushState !== false) history.pushState(null, "", "#"+viewName);
+    window.scrollTo(0,0);
+  }
+  window.navigateTo = navigateTo;
+  document.querySelectorAll(".nav-target").forEach(el=>{
+    el.addEventListener("click", (e)=>{
+      e.preventDefault();
+      navigateTo(el.dataset.view);
+      document.getElementById("nav-mobile-menu")?.classList.remove("open");
+    });
+  });
+  document.getElementById("nav-hamburger")?.addEventListener("click", ()=>{
+    document.getElementById("nav-mobile-menu")?.classList.toggle("open");
+  });
+  window.addEventListener("popstate", ()=>{
+    navigateTo(location.hash.replace("#","") || "inicio", false);
+  });
+  // Carga inicial: respeta el hash de la URL si alguien entra directo a #muro, por ejemplo
+  navigateTo(location.hash.replace("#","") || "inicio", false);
+
+  // Stats
+  document.getElementById("stat-entities").textContent = ENTIDADES.length;
+  document.getElementById("stat-instruments").textContent = INSTRUMENTOS.length;
+  document.getElementById("stat-events").textContent = MURO.length;
+
+  renderEntidades("todos");
+  renderInstrumentos("todos", BTC_FALLBACK, "");
+  renderMuro();
+  renderAccesibilidad();
+  renderBetaLive();
+  recalcularBetasEnVivo();
+  renderEstadoActual();
+  populateInstSelect();
+  renderTicker();
+  runSimulation(BTC_FALLBACK);
+
+  document.getElementById("inst-select").addEventListener("change", ()=>{
+    renderSelectDetail(Number(document.getElementById("sim-slider")?.value || BTC_FALLBACK));
+  });
+
+  initFilters("ent-filterbar", f => renderEntidades(f), "ent-grid");
+  initFilters("inst-filterbar", f => renderInstrumentos(f, Number(document.getElementById("sim-slider").value), document.getElementById("inst-search")?.value), "inst-grid");
+
+  document.getElementById("inst-search").addEventListener("input", (e)=>{
+    const activeFilter = document.querySelector("#inst-filterbar .active")?.dataset.filter || "todos";
+    renderInstrumentos(activeFilter, Number(document.getElementById("sim-slider")?.value || BTC_FALLBACK), e.target.value);
+  });
+
+  document.getElementById("flows-retry").addEventListener("click", fetchFlows);
+
+  // Slider + input numerico, con toggle para elegir cual mostrar
+  const simSlider = document.getElementById("sim-slider");
+  const simInput = document.getElementById("sim-input");
+  function syncSliders(value){
+    const v = Math.max(0, Number(value) || 0);
+    simSlider.value = v;
+    simInput.value = v;
+    runSimulation(v);
+  }
+  simSlider.addEventListener("input", e => syncSliders(e.target.value));
+  simInput.addEventListener("input", e => syncSliders(e.target.value));
+
+  document.getElementById("sim-reset-btn").addEventListener("click", ()=>{
+    syncSliders(window.__btcLive || BTC_FALLBACK);
+  });
+
+  document.querySelectorAll(".toggle-btn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      document.querySelectorAll(".toggle-btn").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      const isSlider = btn.dataset.mode === "slider";
+      document.getElementById("mode-slider").style.display = isSlider ? "block" : "none";
+      document.getElementById("mode-number").style.display = isSlider ? "none" : "block";
+    });
+  });
+
+  fetchBtcLive();
+  setInterval(fetchBtcLive, 45000);
+
+  // Aparicion de contenido al scrollear (estilo Strike) -- respeta prefers-reduced-motion
+  const revealObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add("visible");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.12, rootMargin:"0px 0px -40px 0px"});
+  document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
+
+  fetchFlows();
+  fetchAllStockPrices();
+  // Logica de horario: NASDAQ/NYSE operan Lun-Vie 9:30-16:00 hora de Nueva York.
+  // Si el mercado esta cerrado, no tiene sentido insistir cada 30s -- alcanza con
+  // una actualizacion al cierre y despues chequear cada tanto por si reabre.
+  function isUSMarketOpen(){
+    const ny = new Date(new Date().toLocaleString("en-US", {timeZone:"America/New_York"}));
+    const day = ny.getDay(); // 0=domingo, 6=sabado
+    if(day === 0 || day === 6) return false;
+    const hours = ny.getHours() + ny.getMinutes()/60;
+    return hours >= 9.5 && hours < 16;
+  }
+  let mercadoEstabaAbierto = isUSMarketOpen();
+  setInterval(()=>{
+    const abierto = isUSMarketOpen();
+    if(abierto){
+      fetchAllStockPrices(); // mercado abierto: actualizar seguido
+    } else if(mercadoEstabaAbierto && !abierto){
+      fetchAllStockPrices(); // se acaba de cerrar: una ultima actualizacion con el precio de cierre
+      fetchFlows(); // los flujos de los ETF se confirman recien despues del cierre
+    }
+    mercadoEstabaAbierto = abierto;
+  }, 30000);
+  // Si el mercado esta cerrado, de todas formas reintentamos cada 30 min (por si el proxy
+  // estaba caido antes y ya volvio, o por si hay un dato de cierre que no se llego a traer).
+  setInterval(()=>{
+    if(!isUSMarketOpen()){
+      fetchFlows();
+      fetchAllStockPrices();
+    }
+  }, 30*60000);
+
+  // Grupo en crisis activa (MSTR + sus 4 preferidas en vivo + Strive + SATA): se reintenta
+  // cada 10 minutos, sin importar el horario de mercado -- se estan moviendo demasiado
+  // rapido como para esperar el ciclo normal de 30 minutos.
+  const GRUPO_PRIORITARIO = ["mstr","strf","strc","strk","strd","asst","sata"];
+  setInterval(()=>{ fetchAllStockPrices(GRUPO_PRIORITARIO); }, 10*60000);
+
+  // Glosario: tooltip unico, posicionado con JS, fuera de cualquier tarjeta recortada
+  const tip = document.getElementById("global-tooltip");
+  function hideTip(){ tip.style.display = "none"; }
+  window.addEventListener("scroll", hideTip, {passive:true});
+  window.addEventListener("resize", hideTip);
+  document.addEventListener("click", (e)=>{
+    const isGloss = e.target.closest(".gloss");
+    if(isGloss){
+      const key = isGloss.dataset.term;
+      const def = GLOSARIO[key];
+      if(def){
+        tip.textContent = def;
+        tip.style.display = "block";
+        const r = isGloss.getBoundingClientRect();
+        const tipW = 240;
+        let left = Math.min(Math.max(8, r.left), window.innerWidth - tipW - 8);
+        // Si no entra arriba (poco espacio), lo mostramos debajo del termino en vez de arriba
+        const spaceAbove = r.top;
+        let top;
+        if(spaceAbove > 100){
+          tip.style.maxHeight = "";
+          top = r.top - 10; // se ajusta despues de medir su alto real
+          tip.style.left = left + "px";
+          tip.style.top = "-9999px"; // medir sin parpadeo
+          requestAnimationFrame(()=>{
+            const h = tip.offsetHeight;
+            tip.style.top = Math.max(8, r.top - h - 10) + "px";
+          });
+        } else {
+          tip.style.left = left + "px";
+          tip.style.top = (r.bottom + 10) + "px";
+        }
+      }
+    } else if(!e.target.closest("#global-tooltip")){
+      hideTip();
+    }
+
+    // Tarjetas de instrumentos: tocar el encabezado expande/contrae el detalle
+    const toggleBtn = e.target.closest(".inst-toggle");
+    if(toggleBtn) toggleBtn.closest(".instcard, .entcard").classList.toggle("expanded");
+
+    // Menciones de instrumentos en el muro o la tabla del simulador: saltan a la tarjeta y la abren
+    const link = e.target.closest(".inst-link");
+    if(link) jumpToInstrument(Number(link.dataset.jump));
+  });
+});
+</script>
+</body>
+</html>
