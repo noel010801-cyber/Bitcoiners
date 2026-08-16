@@ -884,11 +884,11 @@ footer a{color:var(--gold);text-decoration:none;}
    DATOS -- curados a mano desde el Excel de investigacion. Corte: 22-jun-2026.
    ===================================================================== */
 const PRECIOS_RESPALDO = { mstr: 93.04, mara: 9.2, xxi: 4.78, djt: 8.27, strc: 94.78, strf: 96.21, strk: 68.6, strd: 67.83, asst: 12.31, sata: 99.26 };
-const PRECIOS_RESPALDO_FECHA = { mstr:"15-aug-2026 (automatico)", mara:"15-aug-2026 (automatico)", xxi:"15-aug-2026 (automatico)", djt:"15-aug-2026 (automatico)", strc:"15-aug-2026 (automatico)", strf:"15-aug-2026 (automatico)", strk:"15-aug-2026 (automatico)", strd:"15-aug-2026 (automatico)", asst:"15-aug-2026 (automatico)", sata:"15-aug-2026 (automatico)" };
+const PRECIOS_RESPALDO_FECHA = { mstr:"16-aug-2026 (automatico)", mara:"16-aug-2026 (automatico)", xxi:"16-aug-2026 (automatico)", djt:"16-aug-2026 (automatico)", strc:"16-aug-2026 (automatico)", strf:"16-aug-2026 (automatico)", strk:"16-aug-2026 (automatico)", strd:"16-aug-2026 (automatico)", asst:"16-aug-2026 (automatico)", sata:"16-aug-2026 (automatico)" };
 const PRECIOS_PCT_RESPALDO = {mstr:-0.0418, mara:-0.0011, xxi:-0.044, djt:-0.0036, strc:-0.0051, strf:-0.0007, strk:0.0251, strd:-0.0122, asst:-0.0211, sata:-0.0039};
 const FLOWS_RESPALDO = {};
 const PRECIOS_RESPALDO_ESTIMADO = {}; // ya no hay estimados a la par -- todos son cotizaciones reales investigadas, ver PRECIOS_RESPALDO_FECHA
-const BETAS = { mstr: 1.5247, mara: 0.9196, xxi: 1.2252, djt: 0.6453, asst: 1.9125, strc: 0.2354 };
+const BETAS = { mstr: 1.5247, mara: 0.9196, xxi: 1.2309, djt: 0.6453, asst: 1.9125, strc: 0.2354 };
 const BTC_FALLBACK = 65000;
 
 /* =====================================================================
@@ -1485,7 +1485,7 @@ function renderBetaLive(){
     box.innerHTML = `<p style="font-size:13px;color:var(--text-soft);">Esperando la variación de 24hs de BTC en vivo para poder calcular esto…</p>`;
     return;
   }
-  const R2_RESPALDO = {mstr:0.5641, mara:0.1678, xxi:0.4535, djt:0.1428, asst:0.5275, strc:0.0906};
+  const R2_RESPALDO = {mstr:0.5641, mara:0.1678, xxi:0.458, djt:0.1428, asst:0.5275, strc:0.0906};
   window.ANALISIS_LIVE = window.ANALISIS_LIVE || {};
   const empresas = [
     {nombre:"Strategy", key:"mstr"}, {nombre:"MARA Holdings", key:"mara"},
