@@ -883,12 +883,12 @@ footer a{color:var(--gold);text-decoration:none;}
 /* =====================================================================
    DATOS -- curados a mano desde el Excel de investigacion. Corte: 22-jun-2026.
    ===================================================================== */
-const PRECIOS_RESPALDO = { mstr: 130.61, mara: 11.05, xxi: 5.45, djt: 8.68, strc: 97.75, strf: 103.26, strk: 69.18, strd: 70.74, asst: 28.35, sata: 99.98 };
-const PRECIOS_RESPALDO_FECHA = { mstr:"17-sep-2026 (automatico)", mara:"17-sep-2026 (automatico)", xxi:"17-sep-2026 (automatico)", djt:"17-sep-2026 (automatico)", strc:"17-sep-2026 (automatico)", strf:"17-sep-2026 (automatico)", strk:"17-sep-2026 (automatico)", strd:"17-sep-2026 (automatico)", asst:"17-sep-2026 (automatico)", sata:"17-sep-2026 (automatico)" };
-const PRECIOS_PCT_RESPALDO = {mstr:0.035, mara:0.0012, xxi:0.0235, djt:0.0152, strc:0.0066, strf:0.0045, strk:0.0075, strd:0.0018, asst:0.0349, sata:-0.0003};
+const PRECIOS_RESPALDO = { mstr: 132.25, mara: 11.64, xxi: 5.57, djt: 8.68, strc: 98.13, strf: 103.94, strk: 69.85, strd: 71.6, asst: 28.28, sata: 99.97 };
+const PRECIOS_RESPALDO_FECHA = { mstr:"18-sep-2026 (automatico)", mara:"18-sep-2026 (automatico)", xxi:"18-sep-2026 (automatico)", djt:"18-sep-2026 (automatico)", strc:"18-sep-2026 (automatico)", strf:"18-sep-2026 (automatico)", strk:"18-sep-2026 (automatico)", strd:"18-sep-2026 (automatico)", asst:"18-sep-2026 (automatico)", sata:"18-sep-2026 (automatico)" };
+const PRECIOS_PCT_RESPALDO = {mstr:0.0481, mara:0.0543, xxi:0.047, djt:0.0152, strc:0.0109, strf:0.0111, strk:0.0172, strd:0.014, asst:0.0317, sata:0.0001};
 const FLOWS_RESPALDO = {};
 const PRECIOS_RESPALDO_ESTIMADO = {}; // ya no hay estimados a la par -- todos son cotizaciones reales investigadas, ver PRECIOS_RESPALDO_FECHA
-const BETAS = { mstr: 1.6823, mara: 1.061, xxi: 1.3655, djt: 0.7597, asst: 1.7715, strc: 0.2742 };
+const BETAS = { mstr: 1.6803, mara: 1.0644, xxi: 1.3699, djt: 0.7357, asst: 1.7474, strc: 0.2781 };
 const BTC_FALLBACK = 65000;
 
 /* =====================================================================
@@ -1485,7 +1485,7 @@ function renderBetaLive(){
     box.innerHTML = `<p style="font-size:13px;color:var(--text-soft);">Esperando la variación de 24hs de BTC en vivo para poder calcular esto…</p>`;
     return;
   }
-  const R2_RESPALDO = {mstr:0.5659, mara:0.2056, xxi:0.5169, djt:0.1967, asst:0.4841, strc:0.1223};
+  const R2_RESPALDO = {mstr:0.558, mara:0.2018, xxi:0.5096, djt:0.1851, asst:0.4738, strc:0.123};
   window.ANALISIS_LIVE = window.ANALISIS_LIVE || {};
   const empresas = [
     {nombre:"Strategy", key:"mstr"}, {nombre:"MARA Holdings", key:"mara"},
